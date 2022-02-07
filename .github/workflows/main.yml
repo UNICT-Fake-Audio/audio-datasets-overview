@@ -21,7 +21,7 @@ jobs:
       run: |
          npm install -g @angular/cli
          npm install
-         ng build --prod --base-href="/ASVspoof2019-feature-webview/"
+         ng build --prod --base-href="/ASVspoof2019-feature-webview/dataset-webview/"
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v2
       env:
