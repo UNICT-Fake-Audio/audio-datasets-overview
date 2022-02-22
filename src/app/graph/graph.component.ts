@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
+  DataType,
   RealSynthetic,
   SPEAKERS_A01_A06,
   SPEAKERS_A07_A19,
@@ -22,11 +23,12 @@ export class GraphComponent implements OnInit, OnChanges {
   @Input() speaker: string;
   @Input() grouped: boolean;
   @Input() realSyntheticState: RealSynthetic;
+  @Input() dataType: DataType;
 
   IMG_URL = '';
 
   ngOnInit(): void {
-    this.IMG_URL = `assets/data/${this.featureType}/${this.feature}/${
+    this.IMG_URL = `assets/data/${this.getDataTypePathName()}/${this.feature}/${
       this.systemId
     }${this.grouped ? '_grouped' : ''}.png`;
   }
@@ -47,8 +49,23 @@ export class GraphComponent implements OnInit, OnChanges {
       realOrSynthetic = '_synthetic';
     }
 
-    this.IMG_URL = `assets/data/${this.featureType}/${this.feature}/${
+    this.IMG_URL = `assets/data/${this.getDataTypePathName()}/${this.feature}/${
       this.featureType == 'features_per_speaker' ? this.speaker + '_' : ''
     }${this.systemId}${this.grouped ? '_grouped' : ''}${realOrSynthetic}.png`;
+  }
+
+  private getDataTypePathName(): string {
+    if (
+      this.featureType == 'features_per_speaker' &&
+      this.dataType != DataType.NORMAL_DATA
+    ) {
+      return (
+        (this.dataType == DataType.LOUD_NORM_DATA
+          ? 'loud_norm_'
+          : 'resample_bit_rate_') + this.featureType
+      );
+    }
+
+    return this.featureType;
   }
 }

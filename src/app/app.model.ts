@@ -4,6 +4,12 @@ export const enum RealSynthetic {
   SYNTHETIC,
 }
 
+export const enum DataType {
+  NORMAL_DATA,
+  RESAMPLED_BIT_RATE__DATA,
+  LOUD_NORM_DATA,
+}
+
 export const SPEAKERS_A01_A06 = [
   'LA_0069',
   'LA_0070',
@@ -14,13 +20,11 @@ export const SPEAKERS_A01_A06 = [
   'LA_0075',
 ];
 export const SPEAKERS_A07_A19 = [
-  'LA_0017',
-  'LA_0018',
-  'LA_0019',
-  'LA_0020',
-  'LA_0021',
-  'LA_0022',
+  'LA_0012',
+  'LA_0013',
+  'LA_0047',
   'LA_0023',
+  'LA_0038',
 ];
 
 export const SYSTEM_IDS = ['A01_A06', 'A07_A19'];
@@ -60,7 +64,7 @@ export const FEATURES = [
   'psrcc',
   'rms',
   'rplp',
-  'signal',
+  // 'signal',
   'size',
   'spectral_bandwidth',
   'spectral_centroid',

@@ -22,6 +22,50 @@
           >
             <option *ngFor="let feature of FEATURES">{{ feature }}</option>
           </select>
+
+          <ng-container *ngIf="featurePerSpeaker">
+            <br />
+
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="dataType"
+                id="normalData"
+                [checked]="dataType == 0"
+                (click)="dataType = 0"
+              />
+              <label class="form-check-label" for="normalData">
+                Standard data
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="dataType"
+                id="resampledBitRate"
+                checked="dataType == 1"
+                (click)="dataType = 1"
+              />
+              <label class="form-check-label" for="resampledBitRate">
+                Resampled bit rate data
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="dataType"
+                id="loudNorm"
+                checked="dataType == 2"
+                (click)="dataType = 2"
+              />
+              <label class="form-check-label" for="loudNorm">
+                Loud normalized data
+              </label>
+            </div>
+          </ng-container>
         </div>
         <div class="col-md-3 col-sm-6">
           <p>System ID:</p>
@@ -117,6 +161,7 @@
         [speaker]="currentSpeaker"
         [grouped]="grouped"
         [realSyntheticState]="realSyntheticState"
+        [dataType]="dataType"
       ></app-graph>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {
+  DataType,
   FEATURES,
   RealSynthetic,
   SPEAKERS_A01_A06,
@@ -23,6 +24,7 @@ export class HomeComponent {
   currentSpeaker: string = SPEAKERS_A01_A06[0];
 
   realSyntheticState: RealSynthetic = RealSynthetic.BOTH;
+  dataType: DataType = DataType.NORMAL_DATA;
   grouped = true;
 
   featurePerSpeaker = false;
