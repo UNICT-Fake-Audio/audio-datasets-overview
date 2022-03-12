@@ -9,7 +9,7 @@
                 class="form-check-input"
                 type="checkbox"
                 [checked]="featurePerSpeaker"
-                (change)="featurePerSpeaker = !featurePerSpeaker"
+                (change)="updateFeaturePerSpeaker(!featurePerSpeaker)"
               />
               Feature per speaker
             </label>
@@ -19,6 +19,7 @@
           <select
             class="form-select select-btn"
             (change)="updateFeature($event.target)"
+            [(ngModel)]="currentFeature"
           >
             <option *ngFor="let feature of FEATURES">{{ feature }}</option>
           </select>
@@ -72,6 +73,7 @@
           <select
             class="form-select select-btn"
             (change)="selectSystem($event.target)"
+            [(ngModel)]="currentSystemId"
           >
             <option *ngFor="let system_id of SYSTEM_IDS">
               {{ system_id }}
@@ -83,6 +85,7 @@
             <select
               class="form-select select-btn"
               (change)="updateSpeaker($event.target)"
+              [(ngModel)]="currentSpeaker"
             >
               <option
                 *ngFor="
