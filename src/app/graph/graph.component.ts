@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import {
   DataType,
   RealSynthetic,
@@ -16,7 +10,7 @@ import {
   selector: 'app-graph',
   templateUrl: './graph.component.html',
 })
-export class GraphComponent implements OnInit, OnChanges {
+export class GraphComponent implements OnChanges {
   @Input() featureType: string;
   @Input() feature: string;
   @Input() systemId: string;
@@ -26,12 +20,6 @@ export class GraphComponent implements OnInit, OnChanges {
   @Input() dataType: DataType;
 
   IMG_URL = '';
-
-  ngOnInit(): void {
-    this.IMG_URL = `assets/data/${this.getDataTypePathName()}/${this.feature}/${
-      this.systemId
-    }${this.grouped ? '_grouped' : ''}.png`;
-  }
 
   ngOnChanges(changes: any): void {
     if (changes.systemId?.currentValue != changes.systemId?.previousValue) {

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   DataType,
   FEATURES,
@@ -8,7 +8,7 @@ import {
   SPEAKERS_A07_A19,
   SYSTEM_IDS,
 } from '../app.model';
-import { QueryParameters } from './home.model';
+import { QueryParameters, systemIDs } from './home.model';
 
 @Component({
   selector: 'app-home',
@@ -16,17 +16,14 @@ import { QueryParameters } from './home.model';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   FEATURES = FEATURES;
   SYSTEM_IDS = SYSTEM_IDS;
   SPEAKERS_A01_A06 = SPEAKERS_A01_A06;
   SPEAKERS_A07_A19 = SPEAKERS_A07_A19;
 
-  currentSystemId: string = SYSTEM_IDS[0];
+  currentSystemId: systemIDs = SYSTEM_IDS[0];
   currentFeature: string = FEATURES[0];
   currentSpeaker: string = SPEAKERS_A01_A06[0];
 
@@ -35,8 +32,6 @@ export class HomeComponent implements OnInit {
   grouped = true;
 
   featurePerSpeaker = false;
-
-  querySettings = { systemId: null };
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -60,21 +55,55 @@ export class HomeComponent implements OnInit {
         this.updateSpeaker({ value: queryParameters.speaker });
       }
     });
+
+    this.updateQueryParameters();
   }
 
   selectSystem(event: any): void {
     this.currentSystemId = event.value;
+    this.updateQueryParameters();
   }
 
   updateFeature(event: any): void {
     this.currentFeature = event.value;
+    this.updateQueryParameters();
   }
 
   updateSpeaker(event: any): void {
     this.currentSpeaker = event.value;
+    this.updateQueryParameters();
   }
 
   updateFeaturePerSpeaker(value: boolean) {
     this.featurePerSpeaker = value;
+    if (this.featurePerSpeaker) {
+      this.setDefaultSpeakerPerSystem();
+    }
+    this.updateQueryParameters();
+  }
+
+  private setDefaultSpeakerPerSystem(): void {
+    if (this.currentSystemId == 'A01_A06') {
+      if (!SPEAKERS_A01_A06.includes(this.currentSpeaker)) {
+        this.currentSpeaker = SPEAKERS_A01_A06[0];
+        this.updateQueryParameters();
+      }
+    } else {
+      if (!SPEAKERS_A07_A19.includes(this.currentSpeaker)) {
+        this.currentSpeaker = SPEAKERS_A07_A19[0];
+        this.updateQueryParameters();
+      }
+    }
+  }
+
+  private updateQueryParameters(): void {
+    const queryParams: QueryParameters = {
+      feature: this.currentFeature,
+      system_id: this.currentSystemId,
+      speaker: this.currentSpeaker,
+      feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
+    };
+
+    this.router.navigate([''], { queryParams });
   }
 }

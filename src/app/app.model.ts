@@ -1,3 +1,5 @@
+import { systemIDs } from './home/home.model';
+
 export const enum RealSynthetic {
   BOTH,
   REAL,
@@ -27,7 +29,7 @@ export const SPEAKERS_A07_A19 = [
   'LA_0038',
 ];
 
-export const SYSTEM_IDS = ['A01_A06', 'A07_A19'];
+export const SYSTEM_IDS: systemIDs[] = ['A01_A06', 'A07_A19'];
 export const FEATURES = [
   'frequencies_q75',
   'amplitudes_cum_sum',
