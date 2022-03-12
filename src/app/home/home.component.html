@@ -34,7 +34,7 @@
                 name="dataType"
                 id="normalData"
                 [checked]="dataType == 0"
-                (click)="dataType = 0"
+                (click)="updateDataType(0)"
               />
               <label class="form-check-label" for="normalData">
                 Standard data
@@ -46,8 +46,8 @@
                 type="radio"
                 name="dataType"
                 id="resampledBitRate"
-                checked="dataType == 1"
-                (click)="dataType = 1"
+                [checked]="dataType == 1"
+                (click)="updateDataType(1)"
               />
               <label class="form-check-label" for="resampledBitRate">
                 Resampled bit rate data
@@ -59,12 +59,13 @@
                 type="radio"
                 name="dataType"
                 id="loudNorm"
-                checked="dataType == 2"
-                (click)="dataType = 2"
+                [checked]="dataType == 2"
+                (click)="updateDataType(2)"
               />
               <label class="form-check-label" for="loudNorm">
                 Loud normalized data
               </label>
+              {{ dataType }}
             </div>
           </ng-container>
         </div>

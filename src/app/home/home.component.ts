@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DataType,
@@ -16,7 +16,11 @@ import { QueryParameters, systemIDs } from './home.model';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   FEATURES = FEATURES;
   SYSTEM_IDS = SYSTEM_IDS;
@@ -54,6 +58,10 @@ export class HomeComponent implements OnInit {
       if (queryParameters?.speaker) {
         this.updateSpeaker({ value: queryParameters.speaker });
       }
+
+      if (queryParameters?.dataType) {
+        this.updateDataType(queryParameters?.dataType);
+      }
     });
 
     this.updateQueryParameters();
@@ -74,12 +82,18 @@ export class HomeComponent implements OnInit {
     this.updateQueryParameters();
   }
 
-  updateFeaturePerSpeaker(value: boolean) {
+  updateFeaturePerSpeaker(value: boolean): void {
     this.featurePerSpeaker = value;
     if (this.featurePerSpeaker) {
       this.setDefaultSpeakerPerSystem();
     }
     this.updateQueryParameters();
+  }
+
+  updateDataType(value: number): void {
+    this.dataType = value;
+    this.updateQueryParameters();
+    this.cdRef.detectChanges();
   }
 
   private setDefaultSpeakerPerSystem(): void {
@@ -102,6 +116,7 @@ export class HomeComponent implements OnInit {
       system_id: this.currentSystemId,
       speaker: this.currentSpeaker,
       feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
+      dataType: this.dataType,
     };
 
     this.router.navigate([''], { queryParams });
