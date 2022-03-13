@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DataType,
@@ -16,11 +16,7 @@ import { QueryParameters, systemIDs } from './home.model';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private cdRef: ChangeDetectorRef
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   FEATURES = FEATURES;
   SYSTEM_IDS = SYSTEM_IDS;
@@ -93,7 +89,6 @@ export class HomeComponent implements OnInit {
   updateDataType(value: number): void {
     this.dataType = value;
     this.updateQueryParameters();
-    this.cdRef.detectChanges();
   }
 
   private setDefaultSpeakerPerSystem(): void {
