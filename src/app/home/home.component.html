@@ -159,7 +159,9 @@
       </div>
       <div class="mt-3">
         <app-graph
-          [featureType]="featurePerSpeaker ? 'features_per_speaker' : 'features'"
+          [featureType]="
+            featurePerSpeaker ? 'features_per_speaker' : 'features'
+          "
           [feature]="currentFeature"
           [systemId]="currentSystemId"
           [speaker]="currentSpeaker"
