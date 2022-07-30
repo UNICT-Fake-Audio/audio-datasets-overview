@@ -8,7 +8,7 @@ import {
   SPEAKERS_A07_A19,
   SYSTEM_IDS,
 } from '../app.model';
-import { QueryParameters, systemIDs } from './home.model';
+import { DATASETS, QueryParameters, systemIDs } from './home.model';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   SYSTEM_IDS = SYSTEM_IDS;
   SPEAKERS_A01_A06 = SPEAKERS_A01_A06;
   SPEAKERS_A07_A19 = SPEAKERS_A07_A19;
+  DATASETS = DATASETS;
 
   currentSystemId: systemIDs = SYSTEM_IDS[0];
   currentFeature: string = FEATURES[0];

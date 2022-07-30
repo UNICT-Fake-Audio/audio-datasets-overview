@@ -7,4 +7,13 @@ export interface QueryParameters {
   system_id: systemIDs;
   speaker: string;
   dataType: DataType;
+  dataset?: Dataset;
 }
+
+export const DATASETS = [
+  'ASVSPOOF2019_LA',
+  'ASVSPOOF2021',
+  'FAKE_OR_REAL',
+] as const;
+
+export type Dataset = typeof DATASETS[number];
