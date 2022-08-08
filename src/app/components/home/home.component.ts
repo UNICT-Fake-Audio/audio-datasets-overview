@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  DataType,
-  FEATURES,
-  RealSynthetic,
-  SPEAKERS_A01_A06,
-  SPEAKERS_A07_A19,
-  SYSTEM_IDS,
-} from '../app.model';
+import { DataType, FEATURES, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
 import { DATASETS, QueryParameters, systemIDs } from './home.model';
 
 @Component({
@@ -39,9 +32,7 @@ export class HomeComponent implements OnInit {
       const queryParameters = params as QueryParameters;
 
       if (queryParameters?.feature_per_speaker) {
-        this.updateFeaturePerSpeaker(
-          queryParameters.feature_per_speaker == '1'
-        );
+        this.updateFeaturePerSpeaker(queryParameters.feature_per_speaker == '1');
       }
 
       if (queryParameters?.feature) {

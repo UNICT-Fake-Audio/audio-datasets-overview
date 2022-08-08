@@ -1,10 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import {
-  DataType,
-  RealSynthetic,
-  SPEAKERS_A01_A06,
-  SPEAKERS_A07_A19,
-} from '../app.model';
+import { DataType, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19 } from '../../app.model';
 
 @Component({
   selector: 'app-graph',
@@ -23,8 +18,7 @@ export class GraphComponent implements OnChanges {
 
   ngOnChanges(changes: any): void {
     if (changes.systemId?.currentValue != changes.systemId?.previousValue) {
-      this.speaker =
-        this.systemId == 'A01_A06' ? SPEAKERS_A01_A06[0] : SPEAKERS_A07_A19[0];
+      this.speaker = this.systemId == 'A01_A06' ? SPEAKERS_A01_A06[0] : SPEAKERS_A07_A19[0];
     }
     this.updateImgUrl();
   }
@@ -43,15 +37,8 @@ export class GraphComponent implements OnChanges {
   }
 
   private getDataTypePathName(): string {
-    if (
-      this.featureType == 'features_per_speaker' &&
-      this.dataType != DataType.NORMAL_DATA
-    ) {
-      return (
-        (this.dataType == DataType.LOUD_NORM_DATA
-          ? 'loud_norm_'
-          : 'resample_bit_rate_') + this.featureType
-      );
+    if (this.featureType == 'features_per_speaker' && this.dataType != DataType.NORMAL_DATA) {
+      return (this.dataType == DataType.LOUD_NORM_DATA ? 'loud_norm_' : 'resample_bit_rate_') + this.featureType;
     }
 
     return this.featureType;

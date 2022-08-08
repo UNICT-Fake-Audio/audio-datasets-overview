@@ -1,4 +1,4 @@
-import { DataType } from '../app.model';
+import { DataType } from '../../app.model';
 
 export type systemIDs = 'A01_A06' | 'A07_A19';
 export interface QueryParameters {
@@ -10,10 +10,6 @@ export interface QueryParameters {
   dataset?: Dataset;
 }
 
-export const DATASETS = [
-  'ASVSPOOF2019_LA',
-  'ASVSPOOF2021',
-  'FAKE_OR_REAL',
-] as const;
+export const DATASETS = ['ASVSPOOF_2019_LA', 'ASVSPOOF_2021', 'FAKE_OR_REAL'] as const;
 
 export type Dataset = typeof DATASETS[number];
