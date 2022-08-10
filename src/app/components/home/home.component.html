@@ -5,23 +5,12 @@
         <div class="row">
           <div class="col-md-3 col-sm-6">
             <div>
-              <select class="form-control">
+              <p>Dataset:</p>
+              <select class="form-control" [(ngModel)]="settings.dataset">
                 <option *ngFor="let dataset of DATASETS">
                   {{ dataset }}
                 </option>
               </select>
-            </div>
-
-            <div class="form-check form-switch mt-3">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [checked]="featurePerSpeaker"
-                  (change)="updateFeaturePerSpeaker(!featurePerSpeaker)"
-                />
-                Feature per speaker
-              </label>
             </div>
 
             <p class="mt-3">Feature:</p>
@@ -29,45 +18,62 @@
               <option *ngFor="let feature of FEATURES">{{ feature }}</option>
             </select>
 
-            <ng-container *ngIf="featurePerSpeaker">
-              <br />
+            <!-- Only for ASVspoof 2019 LA -->
+            <ng-container *ngIf="settings.dataset === DATASETS[0]">
+              <div class="form-check form-switch mt-3">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [checked]="featurePerSpeaker"
+                    (change)="updateFeaturePerSpeaker(!featurePerSpeaker)"
+                  />
+                  Feature per speaker
+                </label>
+              </div>
 
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="dataType"
-                  id="normalData"
-                  [checked]="dataType == 0"
-                  (click)="updateDataType(0)"
-                />
-                <label class="form-check-label" for="normalData"> Standard data </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="dataType"
-                  id="resampledBitRate"
-                  [checked]="dataType == 1"
-                  (click)="updateDataType(1)"
-                />
-                <label class="form-check-label" for="resampledBitRate"> Resampled bit rate data </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="dataType"
-                  id="loudNorm"
-                  [checked]="dataType == 2"
-                  (click)="updateDataType(2)"
-                />
-                <label class="form-check-label" for="loudNorm"> Loud normalized data </label>
-              </div>
+              <ng-container *ngIf="featurePerSpeaker">
+                <br />
+
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="dataType"
+                    id="normalData"
+                    [checked]="settings.dataType == 0"
+                    (click)="updateDataType(0)"
+                  />
+                  <label class="form-check-label" for="normalData"> Standard data </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="dataType"
+                    id="resampledBitRate"
+                    [checked]="settings.dataType == 1"
+                    (click)="updateDataType(1)"
+                  />
+                  <label class="form-check-label" for="resampledBitRate"> Resampled bit rate data </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="dataType"
+                    id="loudNorm"
+                    [checked]="settings.dataType == 2"
+                    (click)="updateDataType(2)"
+                  />
+                  <label class="form-check-label" for="loudNorm"> Loud normalized data </label>
+                </div>
+              </ng-container>
             </ng-container>
           </div>
-          <div class="col-md-3 col-sm-6">
+
+          <!-- Only for ASVspoof 2019 LA -->
+          <div class="col-md-3 col-sm-6" *ngIf="settings.dataset === DATASETS[0]">
             <p>System ID:</p>
             <select class="form-select select-btn" (change)="selectSystem($event.target)" [(ngModel)]="currentSystemId">
               <option *ngFor="let system_id of SYSTEM_IDS">
@@ -84,12 +90,18 @@
               </select>
             </ng-container>
           </div>
+
           <div class="col-md-3 col-sm-6">
             <p>Graph options:</p>
             <div>
               <div class="form-check form-switch">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" [checked]="grouped" (change)="grouped = !grouped" />
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [checked]="settings.grouped"
+                    (change)="settings.grouped = !settings.grouped"
+                  />
                   Grouped
                 </label>
               </div>
@@ -100,8 +112,8 @@
                     type="radio"
                     name="realOrSynthetic"
                     id="realAndSynthetic"
-                    [checked]="realSyntheticState == 0"
-                    (click)="realSyntheticState = 0"
+                    [checked]="settings.realSyntheticState == 0"
+                    (click)="settings.realSyntheticState = 0"
                   />
                   <label class="form-check-label" for="realAndSynthetic"> Real and Synthetic </label>
                 </div>
@@ -111,8 +123,8 @@
                     type="radio"
                     name="realOrSynthetic"
                     id="real"
-                    checked="realSyntheticState == 1"
-                    (click)="realSyntheticState = 1"
+                    checked="settings.realSyntheticState == 1"
+                    (click)="settings.realSyntheticState = 1"
                   />
                   <label class="form-check-label" for="real"> Real </label>
                 </div>
@@ -122,8 +134,8 @@
                     type="radio"
                     name="realOrSynthetic"
                     id="synthetic"
-                    checked="realSyntheticState == 2"
-                    (click)="realSyntheticState = 2"
+                    checked="settings.realSyntheticState == 2"
+                    (click)="settings.realSyntheticState = 2"
                   />
                   <label class="form-check-label" for="synthetic"> Synthetic </label>
                 </div>
@@ -138,9 +150,9 @@
           [feature]="currentFeature"
           [systemId]="currentSystemId"
           [speaker]="currentSpeaker"
-          [grouped]="grouped"
-          [realSyntheticState]="realSyntheticState"
-          [dataType]="dataType"
+          [grouped]="settings.grouped"
+          [realSyntheticState]="settings.realSyntheticState"
+          [dataType]="settings.dataType"
         ></app-graph>
       </div>
     </div>

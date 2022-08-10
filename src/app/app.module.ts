@@ -12,11 +12,12 @@ import { GraphComponent } from './components/graph/graph.component';
 import { HomeComponent } from './components/home/home.component';
 import { InfoComponent } from './components/info/info.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PlaygroundComponent } from './playground/playground.component';
 
 const icons = { github };
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavbarComponent, GraphComponent, ExperimentsComponent, InfoComponent],
+  declarations: [AppComponent, HomeComponent, NavbarComponent, GraphComponent, ExperimentsComponent, InfoComponent, PlaygroundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

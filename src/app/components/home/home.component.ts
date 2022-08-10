@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataType, FEATURES, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
-import { DATASETS, QueryParameters, systemIDs } from './home.model';
+import { DATASETS, QueryParameters, Settings, systemIDs } from './home.model';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +21,7 @@ export class HomeComponent implements OnInit {
   currentFeature: string = FEATURES[0];
   currentSpeaker: string = SPEAKERS_A01_A06[0];
 
-  realSyntheticState: RealSynthetic = RealSynthetic.BOTH;
-  dataType: DataType = DataType.NORMAL_DATA;
-  grouped = true;
+  settings: Settings = { grouped: true, dataset: DATASETS[0], realSyntheticState: RealSynthetic.BOTH, dataType: DataType.NORMAL_DATA };
 
   featurePerSpeaker = false;
 
@@ -71,7 +69,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateFeaturePerSpeaker(value: boolean): void {
-    this.featurePerSpeaker = value;
+    this.featurePerSpeaker = value && this.settings.dataset === this.DATASETS[0];
     if (this.featurePerSpeaker) {
       this.setDefaultSpeakerPerSystem();
     }
@@ -79,7 +77,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateDataType(value: number): void {
-    this.dataType = value;
+    this.settings.dataType = value;
     this.updateQueryParameters();
   }
 
@@ -103,7 +101,7 @@ export class HomeComponent implements OnInit {
       system_id: this.currentSystemId,
       speaker: this.currentSpeaker,
       feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
-      dataType: this.dataType,
+      dataType: this.settings.dataType,
     };
 
     this.router.navigate([''], { queryParams });
