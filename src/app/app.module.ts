@@ -12,7 +12,11 @@ import { GraphComponent } from './components/graph/graph.component';
 import { HomeComponent } from './components/home/home.component';
 import { InfoComponent } from './components/info/info.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { PlaygroundComponent } from './playground/playground.component';
+import { PlaygroundComponent } from './components/playground/playground.component';
+import * as PlotlyJS from 'plotly.js-dist-min';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 const icons = { github };
 
@@ -26,6 +30,7 @@ const icons = { github };
     FormsModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
     NgxBootstrapIconsModule.pick(icons),
+    PlotlyModule,
   ],
   bootstrap: [AppComponent],
 })
