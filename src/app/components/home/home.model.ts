@@ -10,7 +10,19 @@ export interface QueryParameters {
   dataset?: Dataset;
 }
 
-export const DATASETS = ['ASVSPOOF_2019_LA', 'ASVSPOOF_2021', 'FAKE_OR_REAL'] as const;
+export const DATASETS = [
+  'ASVSPOOF_2019_LA',
+  'ASVSPOOF_2021',
+  'ASVSPOOF_2021_ONLY_SILENCE',
+  'ASVSPOOF_2019_LA_ONLY_SILENCE',
+  'ASVSPOOF_2019_LA_MP3_LOW',
+  'ASVSPOOF_2019_LA_MP3_MEDIUM',
+  'ASVSPOOF_2019_LA_MP3_HIGH',
+  'FAKE_OR_REAL',
+  'FAKE_OR_REAL_ONLY_SILENCE',
+] as const;
+
+export const SYNTHETIC_LABELS = ['spoof', 'fake'];
 
 export type Dataset = typeof DATASETS[number];
 

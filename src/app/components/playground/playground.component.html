@@ -1,6 +1,12 @@
 <div class="container">
   <div class="mt-5 row-center">
-    {{ feature }}
-    <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+    <p class="text-center">
+      The y-axis represents the number of utterances that have the specific x-axis value, the x-axis value is the feature value ({{
+        feature
+      }}).
+    </p>
+    <div class="div-plot-container mx-auto">
+      <plotly-plot #chart [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+    </div>
   </div>
 </div>

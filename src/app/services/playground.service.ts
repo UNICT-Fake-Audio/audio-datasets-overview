@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
-import { Observable } from 'rxjs';
+import { from, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { Dataset } from '../components/home/home.model';
 import { GraphData } from '../components/playground/playground.type';
 
@@ -27,16 +27,25 @@ export class PlaygroundService {
     return this.http.get<GraphData>(`assets/datasets/${dataset}/${feature}/${fileName}.json`);
   }
 
-  getDataFromCsvZip(dataset: Dataset, feature: string): Promise<string[]> {
-    return fetch(`assets/datasets/${dataset}/${feature}.csv.zip`)
-      .then((response) => response.blob())
-      .then((fileZip) => JSZip.loadAsync(fileZip))
-      .then((zipData) =>
-        zipData
-          .file(Object.keys(zipData.files)[0])! // fix "Object is possibly 'null' "
-          .async('string'),
-      )
-      .then((csvData: string) => csvData.split('\n'));
+  getDataFromCsvZip(dataset: Dataset, feature: string): Observable<string[]> {
+    return this.http.get(`assets/datasets/${dataset}/${feature}.csv.zip`, { responseType: 'arraybuffer' }).pipe(
+      // shareReplay(1),
+      switchMap((fileZip) =>
+        from(
+          JSZip.loadAsync(fileZip)
+            .then((zipData) =>
+              zipData
+                .file(Object.keys(zipData.files)[0])! // fix "Object is possibly 'null' "
+                .async('string'),
+            )
+            .then((csvData: string) => csvData.split('\n')),
+        ),
+      ),
+    );
+  }
+
+  getFeatureHeadersFromDataset(dataset: Dataset): Observable<string[]> {
+    return this.http.get(`assets/datasets/${dataset}/feature.csv`, { responseType: 'text' }).pipe(map((response) => response.split('\n')));
   }
 
   private getMinMax(values: number[]) {
