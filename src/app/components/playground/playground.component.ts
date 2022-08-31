@@ -28,6 +28,8 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
 
   @ViewChild('chart') plotlyGraph: any;
 
+  isLoading = true;
+
   constructor(
     private playgroundService: PlaygroundService,
     private readonly cdRef: ChangeDetectorRef,
@@ -76,18 +78,16 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
   }
 
   private refreshGraph(gruopedBins = true): void {
+    this.isLoading = true;
     this.readyLabels
       .pipe(
-        filter((ready) => {
-          console.log('trigger ready');
-          return ready;
-        }),
+        filter((ready) => ready),
         switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this.dataset, this.feature))),
         shareReplay(1),
         takeUntil(this.unsubscribe$),
       )
       .subscribe((feature) => {
-        console.log('feature', feature.length);
+        this.isLoading = false;
         const realData: number[] = [];
         const fakeData: number[] = [];
         for (let i = 0; i < this.labels.length; i++) {

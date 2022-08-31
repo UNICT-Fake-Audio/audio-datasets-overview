@@ -1,12 +1,18 @@
 <div class="container">
-  <div class="mt-5 row-center">
-    <p class="text-center">
-      The y-axis represents the number of utterances that have the specific x-axis value, the x-axis value is the feature value ({{
-        feature
-      }}).
-    </p>
-    <div class="div-plot-container mx-auto">
-      <plotly-plot #chart [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
-    </div>
+  <div class="mt-5 row-center text-center">
+    <ng-container *ngIf="!isLoading; else loading">
+      <p class="text-center">
+        The y-axis represents the number of utterances that have the specific x-axis value, the x-axis value is the feature value ({{
+          feature
+        }}).
+      </p>
+      <div class="div-plot-container mx-auto text-center">
+        <plotly-plot #chart [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+      </div>
+    </ng-container>
   </div>
 </div>
+
+<ng-template #loading>
+  <img src="assets/loading.gif" height="150" />
+</ng-template>

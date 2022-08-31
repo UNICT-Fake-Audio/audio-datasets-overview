@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
-import { from, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { from, map, Observable, switchMap } from 'rxjs';
 import { Dataset } from '../components/home/home.model';
 import { GraphData } from '../components/playground/playground.type';
 
