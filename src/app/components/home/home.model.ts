@@ -21,10 +21,9 @@ export const DATASETS = [
   'FAKE_OR_REAL',
   'FAKE_OR_REAL_ONLY_SILENCE',
 ] as const;
+export type Dataset = typeof DATASETS[number];
 
 export const SYNTHETIC_LABELS = ['spoof', 'fake'];
-
-export type Dataset = typeof DATASETS[number];
 
 export interface Settings {
   grouped: boolean;

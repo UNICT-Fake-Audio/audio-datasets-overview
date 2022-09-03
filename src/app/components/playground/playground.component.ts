@@ -1,16 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { PlotlyService } from 'angular-plotly.js';
 import { PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
-import { BehaviorSubject, from, shareReplay, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, shareReplay, Subject, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { PlaygroundService } from '../../services/playground.service';
 import { Dataset, DATASETS, SYNTHETIC_LABELS } from '../home/home.model';
@@ -21,10 +12,28 @@ import { Dataset, DATASETS, SYNTHETIC_LABELS } from '../home/home.model';
   styleUrls: ['./playground.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaygroundComponent implements OnChanges, OnDestroy {
-  @Input() dataset: Dataset = DATASETS[1];
-  @Input() feature = 'bitrate';
-  @Input() grouped = true;
+export class PlaygroundComponent implements OnDestroy {
+  private _dataset: Dataset = DATASETS[1];
+  @Input() set dataset(dataset: Dataset) {
+    this.readyLabels.next(false);
+    this._dataset = dataset;
+    this.initDataset();
+  }
+
+  private _feature = 'bitrate';
+  @Input() set feature(feature: string) {
+    this._feature = feature;
+    this.refresh$.next(feature);
+  }
+  get feature(): string {
+    return this._feature;
+  }
+
+  private _grouped = true;
+  @Input() set grouped(grouped: boolean) {
+    this._grouped = grouped;
+    this.refresh$.next(grouped);
+  }
 
   @ViewChild('chart') plotlyGraph: any;
 
@@ -35,12 +44,13 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
     private readonly cdRef: ChangeDetectorRef,
     private readonly plotly: PlotlyService,
   ) {
-    this.initDataset();
+    this.initGraph();
   }
 
   private readonly sharedPlotParam = { x: [0], y: [0], type: 'scatter' as PlotData['type'], mode: 'lines' as PlotData['mode'], name: '' };
   private readonly unsubscribe$ = new Subject();
   private readonly readyLabels = new BehaviorSubject<boolean>(false);
+  private readonly refresh$ = new Subject();
   private labels: string[];
 
   graph: PlotlyDataLayoutConfig = {
@@ -48,41 +58,28 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
       { ...this.sharedPlotParam, marker: { color: 'blue' } },
       { ...this.sharedPlotParam, marker: { color: 'red' } },
     ],
-    layout: { width: 800, height: 600, dragmode: 'pan', title: { text: `${this.dataset} - ${this.feature}`, xanchor: 'center' } },
+    layout: { width: 800, height: 600, dragmode: 'pan', title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' } },
     config: { scrollZoom: true },
   };
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['dataset'] && changes['dataset'].currentValue !== changes['dataset'].previousValue) {
-      this.readyLabels.next(false);
-      this.initDataset();
-      this.refreshGraph();
-    } else if (
-      (changes['grouped'] && changes['grouped'].currentValue !== changes['grouped'].previousValue) ||
-      (changes['feature'] && changes['feature'].currentValue !== changes['feature'].previousValue)
-    ) {
-      this.refreshGraph();
-    }
-  }
-
   private initDataset(): void {
-    // const listFeatures = this.playgroundService.getFeatureHeadersFromDataset(this.dataset);
     this.playgroundService
-      .getDataFromCsvZip(this.dataset, 'label')
+      .getDataFromCsvZip(this._dataset, 'label')
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((labels) => {
         this.labels = labels;
         this.readyLabels.next(true);
-        // TODO: use listFeatures
       });
   }
 
-  private refreshGraph(gruopedBins = true): void {
-    this.isLoading = true;
-    this.readyLabels
+  private initGraph(): void {
+    combineLatest([this.readyLabels, this.refresh$])
       .pipe(
-        filter((ready) => ready),
-        switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this.dataset, this.feature))),
+        tap(() => {
+          this.isLoading = true;
+        }),
+        filter(([ready, _]) => !!ready),
+        switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this._dataset, this.feature))),
         shareReplay(1),
         takeUntil(this.unsubscribe$),
       )
@@ -98,7 +95,7 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
           }
         }
 
-        const getData = gruopedBins ? this.playgroundService.elaborateData : this.playgroundService.elaborateDataV2;
+        const getData = this._grouped ? this.playgroundService.elaborateData : this.playgroundService.elaborateDataV2;
         const { x: xReal, y: yReal } = getData.bind(this.playgroundService)(realData);
         const { x: xFake, y: yFake } = getData.bind(this.playgroundService)(fakeData);
 
@@ -120,7 +117,7 @@ export class PlaygroundComponent implements OnChanges, OnDestroy {
       plotly.relayout(this.plotlyGraph.plotEl.nativeElement, {
         'xaxis.autorange': true,
         'yaxis.autorange': true,
-        title: { text: `${this.dataset} - ${this.feature}`, xanchor: 'center' },
+        title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
       });
     });
   }
