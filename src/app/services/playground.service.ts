@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
-import { from, map, Observable, switchMap } from 'rxjs';
+import { from, map, Observable, switchMap, shareReplay, of, catchError } from 'rxjs';
 import { Dataset } from '../components/home/home.model';
 import { GraphData } from '../components/playground/playground.type';
 
@@ -22,26 +22,38 @@ interface PlotData {
 export class PlaygroundService {
   constructor(private http: HttpClient) {}
 
+  cachedRequests: Record<string, Observable<string[]>> = {};
+
   getData(dataset: string, feature: string, grouped = true): Observable<GraphData> {
     const fileName = grouped ? 'grouped_both' : 'both';
     return this.http.get<GraphData>(`assets/datasets/${dataset}/${feature}/${fileName}.json`);
   }
 
   getDataFromCsvZip(dataset: Dataset, feature: string): Observable<string[]> {
-    return this.http.get(`assets/datasets/${dataset}/${feature}.csv.zip`, { responseType: 'arraybuffer' }).pipe(
-      // shareReplay(1),
-      switchMap((fileZip) =>
-        from(
-          JSZip.loadAsync(fileZip)
-            .then((zipData) =>
-              zipData
-                .file(Object.keys(zipData.files)[0])! // fix "Object is possibly 'null' "
-                .async('string'),
-            )
-            .then((csvData: string) => csvData.split('\n')),
+    const URL = `assets/datasets/${dataset}/${feature}.csv.zip`;
+
+    if (!this.cachedRequests[URL]) {
+      this.cachedRequests[URL] = this.http.get(URL, { responseType: 'arraybuffer' }).pipe(
+        catchError((error: any) => {
+          console.log('error', error);
+          throw error;
+        }),
+        shareReplay(1),
+        switchMap((fileZip) =>
+          from(
+            JSZip.loadAsync(fileZip)
+              .then((zipData) =>
+                zipData
+                  .file(Object.keys(zipData.files)[0])! // fix "Object is possibly 'null' "
+                  .async('string'),
+              )
+              .then((csvData: string) => csvData.split('\n')),
+          ),
         ),
-      ),
-    );
+      );
+    }
+
+    return this.cachedRequests[URL];
   }
 
   getFeatureHeadersFromDataset(dataset: Dataset): Observable<string[]> {

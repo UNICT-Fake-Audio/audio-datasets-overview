@@ -80,7 +80,6 @@ export class PlaygroundComponent implements OnDestroy {
         }),
         filter(([ready, _]) => !!ready),
         switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this._dataset, this.feature))),
-        shareReplay(1),
         takeUntil(this.unsubscribe$),
       )
       .subscribe((feature) => {
