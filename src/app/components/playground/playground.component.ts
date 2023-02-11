@@ -127,7 +127,6 @@ export class PlaygroundComponent implements OnDestroy {
 
   private getSet(arrX: number[], arrY: number[]): { setX: number[]; setY: number[] } {
     const mergedXY = [...new Set(arrX.map((x, idx) => `${x},${arrY[idx]}`))];
-    console.log('mergedXY', mergedXY);
     const setX: number[] = [];
     const setY: number[] = [];
     mergedXY.forEach((xy) => {
