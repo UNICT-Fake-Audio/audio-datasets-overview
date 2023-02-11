@@ -40,7 +40,7 @@ export class PlaygroundComponent implements OnDestroy {
   isLoading = true;
 
   constructor(
-    private playgroundService: PlaygroundService,
+    private readonly playgroundService: PlaygroundService,
     private readonly cdRef: ChangeDetectorRef,
     private readonly plotly: PlotlyService,
   ) {
@@ -98,11 +98,15 @@ export class PlaygroundComponent implements OnDestroy {
         const { x: xReal, y: yReal } = getData.bind(this.playgroundService)(realData);
         const { x: xFake, y: yFake } = getData.bind(this.playgroundService)(fakeData);
 
-        (this.graph.data[0] as Partial<PlotData>).x = xReal;
-        (this.graph.data[0] as Partial<PlotData>).y = yReal;
+        // remove duplicates
+        const { setX: setXReal, setY: setYReal } = this.getSet(xReal, yReal);
+        const { setX: setXFake, setY: setYFake } = this.getSet(xFake, yFake);
+
+        (this.graph.data[0] as Partial<PlotData>).x = setXReal;
+        (this.graph.data[0] as Partial<PlotData>).y = setYReal;
         this.graph.data[0].name = `real (${realData.length})`;
-        (this.graph.data[1] as Partial<PlotData>).x = xFake;
-        (this.graph.data[1] as Partial<PlotData>).y = yFake;
+        (this.graph.data[1] as Partial<PlotData>).x = setXFake;
+        (this.graph.data[1] as Partial<PlotData>).y = setYFake;
         this.graph.data[1].name = `synthetic (${fakeData.length})`;
 
         this.cdRef.detectChanges();
@@ -119,6 +123,19 @@ export class PlaygroundComponent implements OnDestroy {
         title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
       });
     });
+  }
+
+  private getSet(arrX: number[], arrY: number[]): { setX: number[]; setY: number[] } {
+    const mergedXY = [...new Set(arrX.map((x, idx) => `${x},${arrY[idx]}`))];
+    console.log('mergedXY', mergedXY);
+    const setX: number[] = [];
+    const setY: number[] = [];
+    mergedXY.forEach((xy) => {
+      const [x, y] = xy.split(',');
+      setX.push(Number(x));
+      setY.push(Number(y));
+    });
+    return { setX, setY };
   }
 
   ngOnDestroy(): void {
