@@ -12,8 +12,10 @@
                 </option>
               </select>
             </div>
+          </div>
 
-            <p class="mt-3">Feature:</p>
+          <div class="col-md-3 col-sm-6">
+            <p>Feature:</p>
             <select class="form-select select-btn" (change)="updateFeature($event.target)" [(ngModel)]="currentFeature">
               <option *ngFor="let feature of FEATURES">{{ feature }}</option>
             </select>

@@ -58,8 +58,12 @@ export class PlaygroundComponent implements OnDestroy {
       { ...this.sharedPlotParam, marker: { color: 'blue' } },
       { ...this.sharedPlotParam, marker: { color: 'red' } },
     ],
-    layout: { width: 800, height: 600, dragmode: 'pan', title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' } },
-    config: { scrollZoom: true },
+    layout: {
+      height: 700,
+      dragmode: 'pan',
+      title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
+    },
+    config: { scrollZoom: true, responsive: true },
   };
 
   private initDataset(): void {
