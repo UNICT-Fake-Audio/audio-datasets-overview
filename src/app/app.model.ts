@@ -1,4 +1,4 @@
-import { systemIDs } from './components/home/home.model';
+import { systemIDs } from './components/datasets/datasets.model';
 
 export const enum RealSynthetic {
   BOTH,

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { PlotlyService } from 'angular-plotly.js';
 import { PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
-import { BehaviorSubject, combineLatest, from, shareReplay, Subject, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Subject, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { PlaygroundService } from '../../services/playground.service';
-import { Dataset, DATASETS, SYNTHETIC_LABELS } from '../home/home.model';
+import { Dataset, DATASETS, SYNTHETIC_LABELS } from '../datasets/datasets.model';
 
 @Component({
   selector: 'app-playground',

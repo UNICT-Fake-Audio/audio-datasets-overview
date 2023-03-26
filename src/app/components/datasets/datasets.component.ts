@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { DataType, FEATURES, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
-import { DATASETS, QueryParameters, Settings, systemIDs } from './home.model';
+import { DATASETS, QueryParameters, Settings, systemIDs } from './datasets.model';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-datasets',
+  templateUrl: './datasets.component.html',
+  styleUrls: ['./datasets.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class DatasetsComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   FEATURES = FEATURES;
@@ -25,8 +26,10 @@ export class HomeComponent implements OnInit {
 
   featurePerSpeaker = false;
 
+  private readonly unsubscribe$ = new Subject();
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
       const queryParameters = params as QueryParameters;
 
       if (queryParameters?.feature_per_speaker) {
@@ -104,6 +107,11 @@ export class HomeComponent implements OnInit {
       dataType: this.settings.dataType,
     };
 
-    this.router.navigate([''], { queryParams });
+    this.router.navigate(['datasets'], { queryParams });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
   }
 }
