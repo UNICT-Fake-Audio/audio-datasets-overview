@@ -32,6 +32,10 @@ export class DatasetsComponent implements OnInit, OnDestroy {
     this.route.queryParams.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
       const queryParameters = params as QueryParameters;
 
+      if (queryParameters?.dataset) {
+        this.updateDataset({ value: queryParameters?.dataset });
+      }
+
       if (queryParameters?.feature_per_speaker) {
         this.updateFeaturePerSpeaker(queryParameters.feature_per_speaker == '1');
       }
@@ -58,6 +62,11 @@ export class DatasetsComponent implements OnInit, OnDestroy {
 
   selectSystem(event: any): void {
     this.currentSystemId = event.value;
+    this.updateQueryParameters();
+  }
+
+  updateDataset(event: any): void {
+    this.settings.dataset = event.value;
     this.updateQueryParameters();
   }
 
@@ -105,6 +114,7 @@ export class DatasetsComponent implements OnInit, OnDestroy {
       speaker: this.currentSpeaker,
       feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
       dataType: this.settings.dataType,
+      dataset: this.settings.dataset,
     };
 
     this.router.navigate(['datasets'], { queryParams });

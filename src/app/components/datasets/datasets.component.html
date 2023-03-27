@@ -6,7 +6,7 @@
           <div class="col-md-3 col-sm-6">
             <div>
               <p>Dataset:</p>
-              <select class="form-control" [(ngModel)]="settings.dataset">
+              <select class="form-control" (change)="updateDataset($event.target)" [(ngModel)]="settings.dataset">
                 <option *ngFor="let dataset of DATASETS">
                   {{ dataset }}
                 </option>
