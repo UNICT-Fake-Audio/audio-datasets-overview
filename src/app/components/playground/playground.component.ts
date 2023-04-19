@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { PlotlyService } from 'angular-plotly.js';
-import { PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
+import { Layout, PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
 import { BehaviorSubject, combineLatest, from, Subject, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { PlaygroundService } from '../../services/playground.service';
@@ -53,17 +53,43 @@ export class PlaygroundComponent implements OnDestroy {
   private readonly refresh$ = new Subject();
   private labels: string[];
 
+  private getLayout: (dataset: string, feature: string) => Partial<Layout> = (dataset, feature) => ({
+    width: 1000,
+    height: 650,
+    dragmode: 'pan',
+    title: { text: `${dataset} - ${feature}`, xanchor: 'center' },
+    legend: {
+      xanchor: 'right',
+      font: {
+        size: 18,
+      },
+    },
+    xaxis: {
+      autorange: true,
+      title: {
+        text: `${feature} value`,
+        font: {
+          size: 18,
+        },
+      },
+    },
+    yaxis: {
+      autorange: true,
+      title: {
+        text: `number of utterances per value`,
+        font: {
+          size: 18,
+        },
+      },
+    },
+  });
+
   graph: PlotlyDataLayoutConfig = {
     data: [
       { ...this.sharedPlotParam, marker: { color: 'blue' } },
       { ...this.sharedPlotParam, marker: { color: 'red' } },
     ],
-    layout: {
-      width: 1000,
-      height: 650,
-      dragmode: 'pan',
-      title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
-    },
+    layout: this.getLayout(this._dataset, this.feature),
     config: { scrollZoom: true },
   };
 
@@ -122,11 +148,12 @@ export class PlaygroundComponent implements OnDestroy {
 
   private autoscale(): void {
     this.plotly.getPlotly().then((plotly) => {
-      plotly.relayout(this.plotlyGraph.plotEl.nativeElement, {
-        'xaxis.autorange': true,
-        'yaxis.autorange': true,
-        title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
-      });
+      plotly.relayout(
+        this.plotlyGraph.plotEl.nativeElement,
+        Object.assign(this.getLayout(this._dataset, this.feature), {
+          title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
+        }),
+      );
     });
   }
 

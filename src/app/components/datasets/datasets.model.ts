@@ -23,7 +23,7 @@ export const DATASETS = [
   'IN_THE_WILD',
   'IN_THE_WILD_ONLY_SILENCE',
   'FAD',
-  'TRUMP_OBAMA_MINI_DATASET',
+  'SOS',
 ] as const;
 export type Dataset = typeof DATASETS[number];
 
