@@ -1,4 +1,4 @@
-import { systemIDs } from './components/home/home.model';
+import { systemIDs } from './components/datasets/datasets.model';
 
 export const enum RealSynthetic {
   BOTH,
@@ -22,7 +22,7 @@ export const FEATURES = [
   'bfcc',
   'bit_rate',
   'dfrange',
-  'duration',
+  // 'duration',
   'energy',
   'freqs_kurtosis',
   'freqs_skewness',
@@ -53,8 +53,8 @@ export const FEATURES = [
   'rms',
   'rplp',
   // 'signal',
-  'size',
-  'spectral_bandwidth',
+  // 'size',
+  // 'spectral_bandwidth',
   'spectral_centroid',
   'spectral_entropy',
   'spectral_flatness',

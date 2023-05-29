@@ -1,8 +1,8 @@
 name: Deploy Angular SPA to GitHub Pages
 
 on:
-  push: 
-    branches:   
+  push:
+    branches:
       - main
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       run: |
          npm install -g @angular/cli
          npm install
-         ng build --prod --base-href="/ASVspoof2019-feature-webview/dataset-webview/"
+         ng build --prod --base-href="/audio-datasets-overview/"
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v2
       env:

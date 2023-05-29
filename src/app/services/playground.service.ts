@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
-import { from, map, Observable, switchMap, shareReplay, of, catchError } from 'rxjs';
-import { Dataset } from '../components/home/home.model';
+import { catchError, from, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { Dataset } from '../components/datasets/datasets.model';
 import { GraphData } from '../components/playground/playground.type';
 
 interface GenericObject {

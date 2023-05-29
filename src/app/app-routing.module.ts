@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExperimentsComponent } from './components/experiments/experiments.component';
-import { HomeComponent } from './components/home/home.component';
-import { InfoComponent } from './components/info/info.component';
+import { DatasetsComponent } from './components/datasets/datasets.component';
 import { PlaygroundComponent } from './components/playground/playground.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'experiments', component: ExperimentsComponent },
-  { path: 'info', component: InfoComponent },
+  { path: 'datasets', component: DatasetsComponent },
+  // { path: 'experiments', component: ExperimentsComponent },
+  // { path: 'info', component: InfoComponent },
   { path: 'playground', component: PlaygroundComponent },
 ];
 @NgModule({
