@@ -12,16 +12,14 @@ export interface QueryParameters {
 
 export const DATASETS = [
   'ASVSPOOF_2019_LA',
-  'ASVSPOOF_2019_LA_SILENCE',
-  // 'ASVSPOOF_2019_LA_MP3_LOW',
+  // 'ASVSPOOF_2019_LA_SILENCE',
+  'ASVSPOOF_2019_LA_MP3_LOW',
   // 'ASVSPOOF_2019_LA_MP3_MEDIUM',
   // 'ASVSPOOF_2019_LA_MP3_HIGH',
-  'ASVSPOOF_2021',
-  'ASVSPOOF_2021_SILENCE',
+  // 'ASVSPOOF_2021',
+  // 'ASVSPOOF_2021_SILENCE',
   'FAKE_OR_REAL',
-  'FAKE_OR_REAL_SILENCE',
   'IN_THE_WILD',
-  'IN_THE_WILD_SILENCE',
   'FAD',
   'SOS',
 ] as const;
@@ -29,9 +27,22 @@ export type Dataset = (typeof DATASETS)[number];
 
 export const SYNTHETIC_LABELS = ['spoof', 'fake'];
 
+export enum Variation {
+  DEFAULT = 'default',
+  SILENCE = 'silence',
+  WHITE_NOISE = 'white_noise',
+  WATER_NOISE = 'water_noise',
+  WIND_NOISE = 'wind_noise',
+  STREET_NOISE = 'street_noise',
+  MP3_LOW = 'mp3-low',
+  MP3_MEDIUM = 'mp3-medium',
+  MP3_HIGH = 'mp3-high',
+}
+
 export interface Settings {
   grouped: boolean;
   dataset: Dataset;
   realSyntheticState: RealSynthetic;
   dataType: DataType;
+  variation: Variation;
 }

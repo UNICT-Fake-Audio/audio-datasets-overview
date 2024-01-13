@@ -11,6 +11,11 @@
                   {{ dataset }}
                 </option>
               </select>
+              {{ settings.variation }}
+              <app-dataset-variations
+                *ngIf="settings.dataset !== DATASETS[0]"
+                (datasetVariation)="settings.variation = $event"
+              ></app-dataset-variations>
             </div>
           </div>
 

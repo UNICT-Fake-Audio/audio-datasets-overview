@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DataType, FEATURES, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
-import { DATASETS, QueryParameters, Settings, systemIDs } from './datasets.model';
+import { DATASETS, QueryParameters, Settings, Variation, systemIDs } from './datasets.model';
 
 @Component({
   selector: 'app-datasets',
@@ -22,7 +22,13 @@ export class DatasetsComponent implements OnInit, OnDestroy {
   currentFeature: string = FEATURES[0];
   currentSpeaker: string = SPEAKERS_A01_A06[0];
 
-  settings: Settings = { grouped: true, dataset: DATASETS[0], realSyntheticState: RealSynthetic.BOTH, dataType: DataType.NORMAL_DATA };
+  settings: Settings = {
+    grouped: true,
+    dataset: DATASETS[0],
+    realSyntheticState: RealSynthetic.BOTH,
+    dataType: DataType.NORMAL_DATA,
+    variation: Variation.DEFAULT,
+  };
 
   featurePerSpeaker = false;
 

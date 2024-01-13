@@ -4,8 +4,8 @@ import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
 import { catchError, from, map, Observable, shareReplay, switchMap } from 'rxjs';
-import { Dataset } from '../components/datasets/datasets.model';
-import { GraphData } from '../components/playground/playground.type';
+import { Dataset } from '../../components/datasets/datasets.model';
+import { GraphData } from '../../components/playground/playground.type';
 
 interface GenericObject {
   [key: string | number]: number;
@@ -15,6 +15,8 @@ interface PlotData {
   x: number[];
   y: number[];
 }
+
+const DATASET_URL = 'https://raw.githubusercontent.com/UNICT-Fake-Audio/features-archive/main/datasets/';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +32,7 @@ export class PlaygroundService {
   }
 
   getDataFromCsvZip(dataset: Dataset, feature: string): Observable<string[]> {
-    const URL = `assets/datasets/${dataset}/${feature}.csv.zip`;
+    const URL = `${DATASET_URL}${dataset}/${feature}.csv.zip`;
 
     if (!this.cachedRequests[URL]) {
       this.cachedRequests[URL] = this.http.get(URL, { responseType: 'arraybuffer' }).pipe(
@@ -57,7 +59,7 @@ export class PlaygroundService {
   }
 
   getFeatureHeadersFromDataset(dataset: Dataset): Observable<string[]> {
-    return this.http.get(`assets/datasets/${dataset}/feature.csv`, { responseType: 'text' }).pipe(map((response) => response.split('\n')));
+    return this.http.get(`${DATASET_URL}${dataset}/feature.csv`, { responseType: 'text' }).pipe(map((response) => response.split('\n')));
   }
 
   private getMinMax(values: number[]) {
