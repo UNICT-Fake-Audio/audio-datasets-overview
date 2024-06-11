@@ -23,7 +23,7 @@ jobs:
       - name: Build 🔨
         run: |
           npm install --legacy-peer-deps
-          ng build --prod --base-href=""
+          npx ng build --prod --base-href=""
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
