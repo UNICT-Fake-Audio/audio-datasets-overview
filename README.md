@@ -1,6 +1,6 @@
 # Audio Datasets Overview
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2.
+This web application exposes the data included [here](https://github.com/UNICT-Fake-Audio/features-archive).
 
 [Live Demo](https://unict-fake-audio.github.io/audio-datasets-overview/)
 
