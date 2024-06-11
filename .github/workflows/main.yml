@@ -3,7 +3,7 @@ name: Deploy Angular SPA to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
