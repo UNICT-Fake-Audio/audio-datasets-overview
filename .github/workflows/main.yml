@@ -3,29 +3,29 @@ name: Deploy Angular SPA to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '16.x'
-    - name: Build
-      run: |
-         npm install -g @angular/cli
-         npm install
-         ng build --prod --base-href="/audio-datasets-overview/"
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: main
-        BRANCH: gh-pages
-        FOLDER: dist
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node.js 16.15.1
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.15.1"
+      - name: Build 🔨
+        run: |
+          npm install --legacy-peer-deps
+          ng build --prod --base-href=""
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist/
