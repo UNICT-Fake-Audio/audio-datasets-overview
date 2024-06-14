@@ -25,15 +25,17 @@ export class GraphComponent implements OnChanges {
 
   private updateImgUrl(): void {
     let realOrSynthetic = '';
-    if (this.realSyntheticState == RealSynthetic.REAL) {
+    if (this.realSyntheticState === RealSynthetic.REAL) {
       realOrSynthetic = '_real';
-    } else if (this.realSyntheticState == RealSynthetic.SYNTHETIC) {
+    } else if (this.realSyntheticState === RealSynthetic.SYNTHETIC) {
       realOrSynthetic = '_synthetic';
     }
 
-    this.IMG_URL = `assets/data/${this.getDataTypePathName()}/${this.feature}/${
-      this.featureType == 'features_per_speaker' ? this.speaker + '_' : ''
-    }${this.systemId}${this.grouped ? '_grouped' : ''}${realOrSynthetic}.png`;
+    this.IMG_URL = `https://raw.githubusercontent.com/UNICT-Fake-Audio/features-archive/main/ASV19LA/data/${this.getDataTypePathName()}/${
+      this.feature
+    }/${this.featureType == 'features_per_speaker' ? this.speaker + '_' : ''}${this.systemId}${
+      this.grouped ? '_grouped' : ''
+    }${realOrSynthetic}.png`;
   }
 
   private getDataTypePathName(): string {

@@ -22,6 +22,7 @@ export const DATASETS = [
   'IN_THE_WILD',
   'FAD',
   'SOS',
+  'TIMIT_TTS_CLEAN',
 ] as const;
 export type Dataset = (typeof DATASETS)[number];
 
