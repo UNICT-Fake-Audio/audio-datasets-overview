@@ -5,13 +5,12 @@
         <div class="row">
           <div class="col-md-3 col-sm-6">
             <div>
-              <p>Dataset:</p>
+              <p>Dataset: {{ settings.dataset }}</p>
               <select class="form-control" (change)="updateDataset($event.target)" [(ngModel)]="settings.dataset">
                 <option *ngFor="let dataset of DATASETS">
                   {{ dataset }}
                 </option>
               </select>
-              {{ settings.variation }}
               <app-dataset-variations
                 *ngIf="settings.dataset !== DATASETS[0]"
                 (datasetVariation)="settings.variation = $event"
@@ -113,6 +112,18 @@
                 </label>
               </div>
 
+              <div class="form-check form-switch" *ngIf="hasDatasetAlgorithms">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [checked]="settings.algorithm"
+                    (change)="settings.algorithm = !settings.algorithm"
+                  />
+                  Show algorithms
+                </label>
+              </div>
+
               <!-- Only for ASVspoof 2019 LA -->
               <div class="mr-5 mt-3" *ngIf="settings.dataset === DATASETS[0]">
                 <div class="form-check form-check-inline">
@@ -170,6 +181,7 @@
           *ngIf="settings.dataset !== DATASETS[0]"
           [dataset]="settings.dataset"
           [grouped]="settings.grouped"
+          [algorithm]="settings.algorithm"
           [feature]="currentFeature"
         ></app-playground>
       </div>

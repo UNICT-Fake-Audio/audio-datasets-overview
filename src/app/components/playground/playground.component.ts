@@ -3,8 +3,9 @@ import { PlotlyService } from 'angular-plotly.js';
 import { Layout, PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
 import { BehaviorSubject, Subject, combineLatest, from, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { COLORS } from '../../app.model';
 import { PlaygroundService } from '../../services/playground/playground.service';
-import { DATASETS, Dataset, SYNTHETIC_LABELS } from '../datasets/datasets.model';
+import { DATASETS, Dataset, DatasetAlgorithmLabel, SYNTHETIC_LABELS } from '../datasets/datasets.model';
 
 @Component({
   selector: 'app-playground',
@@ -20,7 +21,7 @@ export class PlaygroundComponent implements OnDestroy {
     this.initDataset();
   }
 
-  private _feature = 'bitrate';
+  private _feature = 'amplitudes_cum_sum';
   @Input() set feature(feature: string) {
     this._feature = feature;
     this.refresh$.next(feature);
@@ -33,6 +34,12 @@ export class PlaygroundComponent implements OnDestroy {
   @Input() set grouped(grouped: boolean) {
     this._grouped = grouped;
     this.refresh$.next(grouped);
+  }
+
+  private _algorithm = true;
+  @Input() set algorithm(algorithm: boolean) {
+    this._algorithm = algorithm;
+    this.refreshLabel$.next(algorithm);
   }
 
   @ViewChild('chart') plotlyGraph: any;
@@ -51,12 +58,14 @@ export class PlaygroundComponent implements OnDestroy {
   private readonly unsubscribe$ = new Subject();
   private readonly readyLabels = new BehaviorSubject<boolean>(false);
   private readonly refresh$ = new Subject();
+  private readonly refreshLabel$ = new BehaviorSubject<boolean>(false);
   private labels: string[];
 
   private getLayout: (dataset: string, feature: string) => Partial<Layout> = (dataset, feature) => ({
     width: 1000,
     height: 650,
     dragmode: 'pan',
+    showlegend: true,
     title: { text: `${dataset} - ${feature}`, xanchor: 'center' },
     legend: {
       xanchor: 'right',
@@ -85,18 +94,20 @@ export class PlaygroundComponent implements OnDestroy {
   });
 
   graph: PlotlyDataLayoutConfig = {
-    data: [
-      { ...this.sharedPlotParam, marker: { color: 'blue' } },
-      { ...this.sharedPlotParam, marker: { color: 'red' } },
-    ],
+    data: [],
     layout: this.getLayout(this._dataset, this.feature),
     config: { scrollZoom: true },
   };
 
   private initDataset(): void {
-    this.playgroundService
-      .getDataFromCsvZip(this._dataset, 'label')
-      .pipe(takeUntil(this.unsubscribe$))
+    this.refreshLabel$
+      .pipe(
+        switchMap(() =>
+          this.playgroundService
+            .getDataFromCsvZip(this._dataset, this._algorithm ? DatasetAlgorithmLabel[this._dataset] : 'label')
+            .pipe(takeUntil(this.unsubscribe$)),
+        ),
+      )
       .subscribe((labels) => {
         this.labels = labels;
         this.readyLabels.next(true);
@@ -115,30 +126,35 @@ export class PlaygroundComponent implements OnDestroy {
       )
       .subscribe((feature) => {
         this.isLoading = false;
-        const realData: number[] = [];
-        const fakeData: number[] = [];
-        for (let i = 0; i < this.labels.length; i++) {
-          if (SYNTHETIC_LABELS.includes(this.labels[i])) {
-            fakeData.push(Number(feature[i]));
-          } else {
-            realData.push(Number(feature[i]));
-          }
-        }
+
+        const datasetLabels = [...new Set(this.labels)];
+        const graphData: number[][] = datasetLabels.map(() => []);
+
+        let colorIdx = 0;
+        const mapLabelIdx: { [label: string]: number } = {};
+
+        this.graph.data = datasetLabels.map((label, labelIdx) => {
+          const color = SYNTHETIC_LABELS.includes(label) ? 'red' : COLORS[colorIdx++];
+          mapLabelIdx[label] = labelIdx;
+
+          return { ...this.sharedPlotParam, name: label, marker: { color } };
+        });
 
         const getData = this._grouped ? this.playgroundService.elaborateData : this.playgroundService.elaborateDataV2;
-        const { x: xReal, y: yReal } = getData.bind(this.playgroundService)(realData);
-        const { x: xFake, y: yFake } = getData.bind(this.playgroundService)(fakeData);
 
-        // remove duplicates
-        const { setX: setXReal, setY: setYReal } = this.getSet(xReal, yReal);
-        const { setX: setXFake, setY: setYFake } = this.getSet(xFake, yFake);
+        for (let i = 0; i < this.labels.length; i++) {
+          graphData[mapLabelIdx[this.labels[i]]].push(Number(feature[i]));
+        }
 
-        (this.graph.data[0] as Partial<PlotData>).x = setXReal;
-        (this.graph.data[0] as Partial<PlotData>).y = setYReal;
-        this.graph.data[0].name = `real (${realData.length})`;
-        (this.graph.data[1] as Partial<PlotData>).x = setXFake;
-        (this.graph.data[1] as Partial<PlotData>).y = setYFake;
-        this.graph.data[1].name = `synthetic (${fakeData.length})`;
+        for (let i = 0; i < graphData.length; i++) {
+          const { x, y } = getData.bind(this.playgroundService)(graphData[i]);
+
+          const { setX, setY } = this.getSet(x, y); // remove duplicates
+
+          (this.graph.data[i] as Partial<PlotData>).x = setX;
+          (this.graph.data[i] as Partial<PlotData>).y = setY;
+          this.graph.data[i].name = `${this.graph.data[i].name} (${graphData[i].length})`;
+        }
 
         this.cdRef.detectChanges();
 
@@ -166,6 +182,7 @@ export class PlaygroundComponent implements OnDestroy {
       setX.push(Number(x));
       setY.push(Number(y));
     });
+
     return { setX, setY };
   }
 

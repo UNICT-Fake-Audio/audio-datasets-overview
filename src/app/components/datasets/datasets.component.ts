@@ -1,25 +1,44 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { DataType, FEATURES, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
-import { DATASETS, QueryParameters, Settings, Variation, systemIDs } from './datasets.model';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { DATASET_URL, DataType, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19, SYSTEM_IDS } from '../../app.model';
+import { ASV19_FEATURES } from '../../asv19.model';
+import {
+  DATASETS,
+  DATASETS_WITH_ALGORITHMS_LABEL,
+  IGNORE_FEATURES,
+  QueryParameters,
+  Settings,
+  Variation,
+  systemIDs,
+} from './datasets.model';
 
 @Component({
   selector: 'app-datasets',
   templateUrl: './datasets.component.html',
   styleUrls: ['./datasets.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatasetsComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly http: HttpClient,
+    private readonly cdRef: ChangeDetectorRef,
+  ) {}
 
-  FEATURES = FEATURES;
+  hasDatasetAlgorithms = true;
+
+  FEATURES = ASV19_FEATURES;
+
   SYSTEM_IDS = SYSTEM_IDS;
   SPEAKERS_A01_A06 = SPEAKERS_A01_A06;
   SPEAKERS_A07_A19 = SPEAKERS_A07_A19;
   DATASETS = DATASETS;
 
   currentSystemId: systemIDs = SYSTEM_IDS[0];
-  currentFeature: string = FEATURES[0];
+  currentFeature: string = ASV19_FEATURES[0];
   currentSpeaker: string = SPEAKERS_A01_A06[0];
 
   settings: Settings = {
@@ -28,41 +47,26 @@ export class DatasetsComponent implements OnInit, OnDestroy {
     realSyntheticState: RealSynthetic.BOTH,
     dataType: DataType.NORMAL_DATA,
     variation: Variation.DEFAULT,
+    algorithm: false,
   };
+
+  getFeatures$(): Observable<string[]> {
+    return this.http.get(`${DATASET_URL}${this.settings.dataset}/feature.csv`, { responseType: 'text' }).pipe(
+      map((file) =>
+        file
+          .split('\n')
+          .filter((feature) => !IGNORE_FEATURES.includes(feature))
+          .sort(),
+      ),
+    );
+  }
 
   featurePerSpeaker = false;
 
   private readonly unsubscribe$ = new Subject();
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
-      const queryParameters = params as QueryParameters;
-
-      if (queryParameters?.dataset) {
-        this.updateDataset({ value: queryParameters?.dataset });
-      }
-
-      if (queryParameters?.feature_per_speaker) {
-        this.updateFeaturePerSpeaker(queryParameters.feature_per_speaker == '1');
-      }
-
-      if (queryParameters?.feature) {
-        this.updateFeature({ value: queryParameters.feature });
-      }
-
-      if (queryParameters?.system_id) {
-        this.selectSystem({ value: queryParameters.system_id });
-      }
-
-      if (queryParameters?.speaker) {
-        this.updateSpeaker({ value: queryParameters.speaker });
-      }
-
-      if (queryParameters?.dataType) {
-        this.updateDataType(queryParameters?.dataType);
-      }
-    });
-
+    this.handleQueryParameters();
     this.updateQueryParameters();
   }
 
@@ -73,7 +77,11 @@ export class DatasetsComponent implements OnInit, OnDestroy {
 
   updateDataset(event: any): void {
     this.settings.dataset = event.value;
+    this.hasDatasetAlgorithms = DATASETS_WITH_ALGORITHMS_LABEL.includes(this.settings.dataset);
+    this.settings.algorithm = this.hasDatasetAlgorithms && this.settings.algorithm;
+
     this.updateQueryParameters();
+    this.updateFeatureList();
   }
 
   updateFeature(event: any): void {
@@ -124,6 +132,49 @@ export class DatasetsComponent implements OnInit, OnDestroy {
     };
 
     this.router.navigate(['datasets'], { queryParams });
+  }
+
+  private handleQueryParameters(): void {
+    this.route.queryParams.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
+      const queryParameters = params as QueryParameters;
+
+      if (queryParameters?.dataset) {
+        this.updateDataset({ value: queryParameters?.dataset });
+      }
+
+      if (queryParameters?.feature_per_speaker) {
+        this.updateFeaturePerSpeaker(queryParameters.feature_per_speaker == '1');
+      }
+
+      if (queryParameters?.feature) {
+        this.updateFeature({ value: queryParameters.feature });
+      }
+
+      if (queryParameters?.system_id) {
+        this.selectSystem({ value: queryParameters.system_id });
+      }
+
+      if (queryParameters?.speaker) {
+        this.updateSpeaker({ value: queryParameters.speaker });
+      }
+
+      if (queryParameters?.dataType) {
+        this.updateDataType(queryParameters?.dataType);
+      }
+    });
+  }
+
+  private updateFeatureList(): void {
+    if (this.settings.dataset !== 'ASVSPOOF_2019_LA') {
+      this.getFeatures$()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((features) => {
+          this.FEATURES = features;
+          this.cdRef.detectChanges();
+        });
+    } else {
+      this.FEATURES = ASV19_FEATURES;
+    }
   }
 
   ngOnDestroy(): void {

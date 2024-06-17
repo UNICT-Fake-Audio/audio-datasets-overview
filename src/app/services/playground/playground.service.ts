@@ -4,27 +4,18 @@ import * as d3 from 'd3';
 import * as JSZip from 'jszip';
 import * as percentile from 'percentile';
 import { catchError, from, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { DATASET_URL } from '../../app.model';
 import { Dataset } from '../../components/datasets/datasets.model';
 import { GraphData } from '../../components/playground/playground.type';
-
-interface GenericObject {
-  [key: string | number]: number;
-}
-
-interface PlotData {
-  x: number[];
-  y: number[];
-}
-
-const DATASET_URL = 'https://raw.githubusercontent.com/UNICT-Fake-Audio/features-archive/main/datasets/';
+import { GenericObject, PlotData } from './playground.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaygroundService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  cachedRequests: Record<string, Observable<string[]>> = {};
+  readonly cachedRequests: Record<string, Observable<string[]>> = {};
 
   getData(dataset: string, feature: string, grouped = true): Observable<GraphData> {
     const fileName = grouped ? 'grouped_both' : 'both';
@@ -46,7 +37,7 @@ export class PlaygroundService {
             JSZip.loadAsync(fileZip)
               .then((zipData) =>
                 zipData
-                  .file(Object.keys(zipData.files)[0])! // fix "Object is possibly 'null' "
+                  .file(Object.keys(zipData.files).filter((f) => f != 'output/')[0])! // fix "Object is possibly 'null' "
                   .async('string'),
               )
               .then((csvData: string) => csvData.split('\n')),

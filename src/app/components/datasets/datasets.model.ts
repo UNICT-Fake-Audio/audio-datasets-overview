@@ -10,10 +10,14 @@ export interface QueryParameters {
   dataset?: Dataset;
 }
 
+export const IGNORE_FEATURES = ['label', 'AUDIO_FILE_NAME', 'Unused', 'SPEAKER_ID', 'SYSTEM_ID'];
+export const DATASETS_WITH_ALGORITHMS_LABEL = ['ASVSPOOF_2019_LA_V2', 'TIMIT_TTS_CLEAN', 'IEEE_SPCUP_2022'];
+
 export const DATASETS = [
   'ASVSPOOF_2019_LA',
+  'ASVSPOOF_2019_LA_V2',
   // 'ASVSPOOF_2019_LA_SILENCE',
-  'ASVSPOOF_2019_LA_MP3_LOW',
+  // 'ASVSPOOF_2019_LA_MP3_LOW',
   // 'ASVSPOOF_2019_LA_MP3_MEDIUM',
   // 'ASVSPOOF_2019_LA_MP3_HIGH',
   // 'ASVSPOOF_2021',
@@ -23,8 +27,16 @@ export const DATASETS = [
   'FAD',
   'SOS',
   'TIMIT_TTS_CLEAN',
+  'IEEE_SPCUP_2022',
 ] as const;
 export type Dataset = (typeof DATASETS)[number];
+
+export const DatasetAlgorithmLabel: any = {
+  /* Record<Dataset, string> */ ASVSPOOF_2019_LA_MP3_LOW: 'SYSTEM_ID',
+  ASVSPOOF_2019_LA_V2: 'SYSTEM_ID',
+  TIMIT_TTS_CLEAN: 'generator_tool',
+  IEEE_SPCUP_2022: 'SYSTEM_ID',
+};
 
 export const SYNTHETIC_LABELS = ['spoof', 'fake'];
 
@@ -46,4 +58,5 @@ export interface Settings {
   realSyntheticState: RealSynthetic;
   dataType: DataType;
   variation: Variation;
+  algorithm: boolean;
 }
