@@ -7,6 +7,7 @@ import { ASV19_FEATURES } from '../../asv19.model';
 import {
   DATASETS,
   DATASETS_WITH_ALGORITHMS_LABEL,
+  DATASETS_WITH_VARIATIONS,
   IGNORE_FEATURES,
   QueryParameters,
   Settings,
@@ -28,7 +29,8 @@ export class DatasetsComponent implements OnInit, OnDestroy {
     private readonly cdRef: ChangeDetectorRef,
   ) {}
 
-  hasDatasetAlgorithms = true;
+  hasAlgorithms = true;
+  hasVariations = false;
 
   FEATURES = ASV19_FEATURES;
 
@@ -77,11 +79,12 @@ export class DatasetsComponent implements OnInit, OnDestroy {
 
   updateDataset(event: any): void {
     this.settings.dataset = event.value;
-    this.hasDatasetAlgorithms = DATASETS_WITH_ALGORITHMS_LABEL.includes(this.settings.dataset);
-    this.settings.algorithm = this.hasDatasetAlgorithms && this.settings.algorithm;
+    this.hasAlgorithms = DATASETS_WITH_ALGORITHMS_LABEL.includes(this.settings.dataset);
+    this.hasVariations = DATASETS_WITH_VARIATIONS.includes(this.settings.dataset);
+    this.settings.algorithm = this.hasAlgorithms && this.settings.algorithm;
 
-    this.updateQueryParameters();
     this.updateFeatureList();
+    this.updateQueryParameters();
   }
 
   updateFeature(event: any): void {
@@ -107,6 +110,11 @@ export class DatasetsComponent implements OnInit, OnDestroy {
     this.updateQueryParameters();
   }
 
+  updateAlgorithm(hasAlgorithm: boolean): void {
+    this.settings.algorithm = hasAlgorithm;
+    this.updateQueryParameters();
+  }
+
   private setDefaultSpeakerPerSystem(): void {
     if (this.currentSystemId == 'A01_A06') {
       if (!SPEAKERS_A01_A06.includes(this.currentSpeaker)) {
@@ -129,6 +137,7 @@ export class DatasetsComponent implements OnInit, OnDestroy {
       feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
       dataType: this.settings.dataType,
       dataset: this.settings.dataset,
+      algorithm: this.settings.algorithm,
     };
 
     this.router.navigate(['datasets'], { queryParams });
@@ -160,6 +169,10 @@ export class DatasetsComponent implements OnInit, OnDestroy {
 
       if (queryParameters?.dataType) {
         this.updateDataType(queryParameters?.dataType);
+      }
+
+      if (queryParameters?.algorithm) {
+        this.updateAlgorithm(queryParameters?.algorithm);
       }
     });
   }

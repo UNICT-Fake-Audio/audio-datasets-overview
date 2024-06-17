@@ -26,9 +26,6 @@ export class PlaygroundComponent implements OnDestroy {
     this._feature = feature;
     this.refresh$.next(feature);
   }
-  get feature(): string {
-    return this._feature;
-  }
 
   private _grouped = true;
   @Input() set grouped(grouped: boolean) {
@@ -95,7 +92,7 @@ export class PlaygroundComponent implements OnDestroy {
 
   graph: PlotlyDataLayoutConfig = {
     data: [],
-    layout: this.getLayout(this._dataset, this.feature),
+    layout: this.getLayout(this._dataset, this._feature),
     config: { scrollZoom: true },
   };
 
@@ -104,7 +101,10 @@ export class PlaygroundComponent implements OnDestroy {
       .pipe(
         switchMap(() =>
           this.playgroundService
-            .getDataFromCsvZip(this._dataset, this._algorithm ? DatasetAlgorithmLabel[this._dataset] : 'label')
+            .getDataFromCsvZip(
+              this._dataset,
+              this._algorithm && DatasetAlgorithmLabel[this._dataset] ? DatasetAlgorithmLabel[this._dataset] : 'label',
+            )
             .pipe(takeUntil(this.unsubscribe$)),
         ),
       )
@@ -121,7 +121,7 @@ export class PlaygroundComponent implements OnDestroy {
           this.isLoading = true;
         }),
         filter(([ready, _]) => !!ready),
-        switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this._dataset, this.feature))),
+        switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this._dataset, this._feature))),
         takeUntil(this.unsubscribe$),
       )
       .subscribe((feature) => {
@@ -166,8 +166,8 @@ export class PlaygroundComponent implements OnDestroy {
     this.plotly.getPlotly().then((plotly) => {
       plotly.relayout(
         this.plotlyGraph.plotEl.nativeElement,
-        Object.assign(this.getLayout(this._dataset, this.feature), {
-          title: { text: `${this._dataset} - ${this.feature}`, xanchor: 'center' },
+        Object.assign(this.getLayout(this._dataset, this._feature), {
+          title: { text: `${this._dataset} - ${this._feature}`, xanchor: 'center' },
         }),
       );
     });

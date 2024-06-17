@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { DataType, RealSynthetic, SPEAKERS_A01_A06, SPEAKERS_A07_A19 } from '../../app.model';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent implements OnChanges {
   @Input() featureType: string;

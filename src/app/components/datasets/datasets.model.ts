@@ -8,10 +8,12 @@ export interface QueryParameters {
   speaker: string;
   dataType: DataType;
   dataset?: Dataset;
+  algorithm?: boolean;
 }
 
-export const IGNORE_FEATURES = ['label', 'AUDIO_FILE_NAME', 'Unused', 'SPEAKER_ID', 'SYSTEM_ID'];
+export const IGNORE_FEATURES = ['label', 'AUDIO_FILE_NAME', 'Unused', 'SPEAKER_ID', 'SYSTEM_ID', 'dataset'];
 export const DATASETS_WITH_ALGORITHMS_LABEL = ['ASVSPOOF_2019_LA_V2', 'TIMIT_TTS_CLEAN', 'IEEE_SPCUP_2022'];
+export const DATASETS_WITH_VARIATIONS = ['ASVSPOOF_2019_LA_V2', 'FAKE_OR_REAL', 'IN_THE_WILD'];
 
 export const DATASETS = [
   'ASVSPOOF_2019_LA',

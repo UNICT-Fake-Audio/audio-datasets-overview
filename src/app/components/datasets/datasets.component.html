@@ -5,16 +5,13 @@
         <div class="row">
           <div class="col-md-3 col-sm-6">
             <div>
-              <p>Dataset: {{ settings.dataset }}</p>
+              <p>Dataset:</p>
               <select class="form-control" (change)="updateDataset($event.target)" [(ngModel)]="settings.dataset">
                 <option *ngFor="let dataset of DATASETS">
                   {{ dataset }}
                 </option>
               </select>
-              <app-dataset-variations
-                *ngIf="settings.dataset !== DATASETS[0]"
-                (datasetVariation)="settings.variation = $event"
-              ></app-dataset-variations>
+              <app-dataset-variations *ngIf="hasVariations" (datasetVariation)="settings.variation = $event"></app-dataset-variations>
             </div>
           </div>
 
@@ -112,13 +109,13 @@
                 </label>
               </div>
 
-              <div class="form-check form-switch" *ngIf="hasDatasetAlgorithms">
+              <div class="form-check form-switch" *ngIf="hasAlgorithms">
                 <label class="form-check-label">
                   <input
                     class="form-check-input"
                     type="checkbox"
                     [checked]="settings.algorithm"
-                    (change)="settings.algorithm = !settings.algorithm"
+                    (change)="settings.algorithm = !settings.algorithm; updateAlgorithm(settings.algorithm)"
                   />
                   Show algorithms
                 </label>
