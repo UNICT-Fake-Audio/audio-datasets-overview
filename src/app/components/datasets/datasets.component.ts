@@ -130,14 +130,15 @@ export class DatasetsComponent implements OnInit, OnDestroy {
   }
 
   private updateQueryParameters(): void {
+    const { dataType, dataset, algorithm } = this.settings;
     const queryParams: QueryParameters = {
       feature: this.currentFeature,
       system_id: this.currentSystemId,
       speaker: this.currentSpeaker,
       feature_per_speaker: this.featurePerSpeaker ? '1' : '0',
-      dataType: this.settings.dataType,
-      dataset: this.settings.dataset,
-      algorithm: this.settings.algorithm,
+      dataType,
+      dataset,
+      algorithm,
     };
 
     this.router.navigate(['datasets'], { queryParams });

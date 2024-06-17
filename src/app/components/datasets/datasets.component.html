@@ -7,18 +7,21 @@
             <div>
               <p>Dataset:</p>
               <select class="form-control" (change)="updateDataset($event.target)" [(ngModel)]="settings.dataset">
-                <option *ngFor="let dataset of DATASETS">
+                <option *ngFor="let dataset of DATASETS" [value]="dataset">
                   {{ dataset }}
                 </option>
               </select>
-              <app-dataset-variations *ngIf="hasVariations" (datasetVariation)="settings.variation = $event"></app-dataset-variations>
+              <app-dataset-variations
+                *ngIf="false && hasVariations"
+                (datasetVariation)="settings.variation = $event"
+              ></app-dataset-variations>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6">
             <p>Feature:</p>
             <select class="form-select select-btn" (change)="updateFeature($event.target)" [(ngModel)]="currentFeature">
-              <option *ngFor="let feature of FEATURES">{{ feature }}</option>
+              <option *ngFor="let feature of FEATURES" [value]="feature">{{ feature }}</option>
             </select>
 
             <!-- Only for ASVspoof 2019 LA -->
@@ -79,7 +82,7 @@
           <div class="col-md-3 col-sm-6" *ngIf="settings.dataset === DATASETS[0]">
             <p>System ID:</p>
             <select class="form-select select-btn" (change)="selectSystem($event.target)" [(ngModel)]="currentSystemId">
-              <option *ngFor="let system_id of SYSTEM_IDS">
+              <option *ngFor="let system_id of SYSTEM_IDS" [value]="system_id">
                 {{ system_id }}
               </option>
             </select>
@@ -87,7 +90,7 @@
             <ng-container *ngIf="featurePerSpeaker">
               Speakers:
               <select class="form-select select-btn" (change)="updateSpeaker($event.target)" [(ngModel)]="currentSpeaker">
-                <option *ngFor="let speaker of currentSystemId == 'A01_A06' ? SPEAKERS_A01_A06 : SPEAKERS_A07_A19">
+                <option *ngFor="let speaker of currentSystemId == 'A01_A06' ? SPEAKERS_A01_A06 : SPEAKERS_A07_A19" [value]="speaker">
                   {{ speaker }}
                 </option>
               </select>
