@@ -5,7 +5,7 @@ import { BehaviorSubject, Subject, combineLatest, from, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { COLORS } from '../../app.model';
 import { PlaygroundService } from '../../services/playground/playground.service';
-import { DATASETS, Dataset, DatasetAlgorithmLabel, SYNTHETIC_LABELS } from '../datasets/datasets.model';
+import { DATASETS, DATASET_SMALLER_LABEL, Dataset, DatasetAlgorithmLabel, SYNTHETIC_LABELS } from '../datasets/datasets.model';
 
 @Component({
   selector: 'app-playground',
@@ -58,7 +58,7 @@ export class PlaygroundComponent implements OnDestroy {
   private readonly refreshLabel$ = new BehaviorSubject<boolean>(false);
   private labels: string[];
 
-  private getLayout: (dataset: string, feature: string) => Partial<Layout> = (dataset, feature) => ({
+  private getLayout: (dataset: Dataset, feature: string) => Partial<Layout> = (dataset, feature) => ({
     width: 1000,
     height: 650,
     dragmode: 'pan',
@@ -67,7 +67,7 @@ export class PlaygroundComponent implements OnDestroy {
     legend: {
       xanchor: 'right',
       font: {
-        size: 18,
+        size: DATASET_SMALLER_LABEL.includes(dataset) && this._algorithm ? 14 : 18,
       },
     },
     xaxis: {
