@@ -4,7 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PlotlyModule } from 'angular-plotly.js';
-import { NgxBootstrapIconsModule, github } from 'ngx-bootstrap-icons';
+import {
+  NgxBootstrapIconsModule,
+  bracesAsterisk,
+  calendar4Event,
+  cardText,
+  fileEarmarkPdfFill,
+  github,
+  link45Deg,
+} from 'ngx-bootstrap-icons';
 import { MarkdownModule } from 'ngx-markdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,8 +29,6 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
-
-const icons = { github };
 
 @NgModule({
   declarations: [
@@ -45,7 +51,7 @@ const icons = { github };
     HttpClientModule,
     FormsModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
-    NgxBootstrapIconsModule.pick(icons),
+    NgxBootstrapIconsModule.pick({ github, calendar4Event, fileEarmarkPdfFill, bracesAsterisk, link45Deg, cardText }),
     PlotlyModule,
   ],
   bootstrap: [AppComponent],
