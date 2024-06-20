@@ -12,6 +12,7 @@ import {
   fileEarmarkPdfFill,
   github,
   link45Deg,
+  globe
 } from 'ngx-bootstrap-icons';
 import { MarkdownModule } from 'ngx-markdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
@@ -27,6 +28,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { VariationComponent } from './components/variation/variation.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { AuthorComponent } from './author/author.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -43,6 +45,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FooterComponent,
     DatasetVariationsComponent,
     VariationComponent,
+    AuthorComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     HttpClientModule,
     FormsModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
-    NgxBootstrapIconsModule.pick({ github, calendar4Event, fileEarmarkPdfFill, bracesAsterisk, link45Deg, cardText }),
+    NgxBootstrapIconsModule.pick({ github, calendar4Event, fileEarmarkPdfFill, bracesAsterisk, link45Deg, cardText, globe }),
     PlotlyModule,
   ],
   bootstrap: [AppComponent],
