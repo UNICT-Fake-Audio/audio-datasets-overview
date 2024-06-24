@@ -25,12 +25,13 @@ export const DATASETS = [
   // 'ASVSPOOF_2019_LA_MP3_HIGH',
   // 'ASVSPOOF_2021',
   // 'ASVSPOOF_2021_SILENCE',
+  'DEEP_VOICE',
   'FAKE_OR_REAL',
-  'IN_THE_WILD',
   'FAD',
+  'IEEE_SPCUP_2022',
+  'IN_THE_WILD',
   'SOS',
   'TIMIT_TTS_CLEAN',
-  'IEEE_SPCUP_2022',
 ] as const;
 export type Dataset = (typeof DATASETS)[number];
 
