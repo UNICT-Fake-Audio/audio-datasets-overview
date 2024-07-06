@@ -75,7 +75,7 @@ export class PlaygroundComponent implements OnDestroy {
       title: {
         text: `${feature} value`,
         font: {
-          size: 18,
+          size: 25,
         },
       },
     },
@@ -84,7 +84,7 @@ export class PlaygroundComponent implements OnDestroy {
       title: {
         text: `number of utterances per value`,
         font: {
-          size: 18,
+          size: 25,
         },
       },
     },
