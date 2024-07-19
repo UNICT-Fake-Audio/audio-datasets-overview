@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { PlotlyService } from 'angular-plotly.js';
-import { Layout, PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
+import { Font, Layout, PlotData, PlotlyDataLayoutConfig } from 'plotly.js-dist-min';
 import { BehaviorSubject, Subject, combineLatest, from, tap } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { COLORS } from '../../app.model';
@@ -43,6 +43,8 @@ export class PlaygroundComponent implements OnDestroy {
 
   isLoading = true;
 
+  private readonly titleFont: Partial<Font> = { size: 25 };
+
   constructor(
     private readonly playgroundService: PlaygroundService,
     private readonly cdRef: ChangeDetectorRef,
@@ -63,11 +65,11 @@ export class PlaygroundComponent implements OnDestroy {
     height: 650,
     dragmode: 'pan',
     showlegend: true,
-    title: { text: `${dataset} - ${feature}`, xanchor: 'center' },
+    title: { font: this.titleFont, text: `${dataset} - ${feature}`, xanchor: 'center' },
     legend: {
       xanchor: 'right',
       font: {
-        size: DATASET_SMALLER_LABEL.includes(dataset) && this._algorithm ? 14 : 18,
+        size: DATASET_SMALLER_LABEL.includes(dataset) && this._algorithm ? 14 : 23,
       },
     },
     xaxis: {
@@ -167,7 +169,7 @@ export class PlaygroundComponent implements OnDestroy {
       plotly.relayout(
         this.plotlyGraph.plotEl.nativeElement,
         Object.assign(this.getLayout(this._dataset, this._feature), {
-          title: { text: `${this._dataset} - ${this._feature}`, xanchor: 'center' },
+          title: { font: this.titleFont, text: `${this._dataset} - ${this._feature}`, xanchor: 'center' },
         }),
       );
     });
