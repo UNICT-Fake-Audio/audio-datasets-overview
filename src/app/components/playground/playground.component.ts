@@ -93,7 +93,7 @@ export class PlaygroundComponent implements OnDestroy {
   graph: PlotlyDataLayoutConfig = {
     data: [],
     layout: this.getLayout(this._dataset, this._feature),
-    config: { scrollZoom: true },
+    config: { scrollZoom: true, toImageButtonOptions: { format: 'svg' } },
   };
 
   private initDataset(): void {
