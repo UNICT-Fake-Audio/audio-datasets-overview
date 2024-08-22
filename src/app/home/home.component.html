@@ -131,6 +131,43 @@
 
     <hr class="mt-5 mb-5" />
 
+    <div class="col-11">
+      <div class="d-flex">
+        <div class="col-5 text-center align-self-center mr-3">
+          <img
+            src="assets/images/silence-pipeline.svg"
+            alt="Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments"
+            height="90"
+          />
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0">Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments</h5>
+          <p>
+            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
+            -
+            <a href="#">coming soon</a>
+          </p>
+          <span><strong>Abstract:</strong></span>
+          <p>
+            Recent advances in artificial intelligence have facilitated the creation of audio deepfakes, synthetic voice recordings that
+            closely mimic human speech. While this tech- nology offers potential benefits in various fields, it also raises significant
+            ethical and legal concerns, particularly regarding its potential misuse in fraud, misinformation, and identity theft. This paper
+            addresses the critical need for reliable and explainable deepfake audio de- tection methods by developing and evaluating an
+            approach that prioritizes handcrafted audio features over complex neural networks. Our method leverages the Random Forest
+            Classifier model to analyze these handcrafted features, with a particular focus on the silent segments of audio samples.
+            Utilizing the DEEP-VOICE dataset, which includes audio samples obtained through voice conversion techniques, our research aims
+            to demonstrate that analyzing silent parts of the audio alone can achieve high-performance deepfake detection. Experiments were
+            conducted on both entire audio samples and their silent segments. The results indicate no sig- nificant difference in accuracy
+            between the two approaches, highlighting that discriminative features of audio deepfakes are present even in the quietest
+            moments. This finding underscores the efficacy of our method and suggests potential advantages in computational efficiency and
+            robustness, as well as enhanced explainability due to the use of interpretable, handcrafted features.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mt-5 mb-5" />
+
     <div class="col-6 offset-3 mb-4">
       <h2 class="text-center">People</h2>
     </div>
@@ -177,8 +214,12 @@
 
     <div class="offset-3 col-6 mt-5">
       <div class="row">
-        <div class="col-6"><img src="assets/images/unict-logo.png" class="unict-logo" /></div>
-        <div class="col-6 d-flex flex-row-reverse"><img src="assets/images/iplablogo.jpg" class="iplab-logo" /></div>
+        <div class="col-6">
+          <a href="https://web.dmi.unict.it/" target="_blank"><img src="assets/images/unict-logo.png" class="unict-logo" /></a>
+        </div>
+        <div class="col-6 d-flex flex-row-reverse">
+          <a href="https://iplab.dmi.unict.it/" target="_blank"><img src="assets/images/iplablogo.jpg" class="iplab-logo" /></a>
+        </div>
       </div>
     </div>
   </div>
