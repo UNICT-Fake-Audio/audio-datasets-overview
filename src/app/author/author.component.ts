@@ -10,5 +10,6 @@ export class AuthorComponent {
   @Input() fullName: string;
   @Input() profile: string;
   @Input() pictureUrl: string;
-  @Input() scholar: string;
+  @Input() scholar = '';
+  @Input() linkedin = '';
 }

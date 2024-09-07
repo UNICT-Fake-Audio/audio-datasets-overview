@@ -12,7 +12,8 @@ import {
   fileEarmarkPdfFill,
   github,
   link45Deg,
-  globe
+  globe,
+  linkedin,
 } from 'ngx-bootstrap-icons';
 import { MarkdownModule } from 'ngx-markdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
@@ -54,7 +55,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     HttpClientModule,
     FormsModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
-    NgxBootstrapIconsModule.pick({ github, calendar4Event, fileEarmarkPdfFill, bracesAsterisk, link45Deg, cardText, globe }),
+    NgxBootstrapIconsModule.pick({ github, calendar4Event, fileEarmarkPdfFill, bracesAsterisk, link45Deg, cardText, globe, linkedin }),
     PlotlyModule,
   ],
   bootstrap: [AppComponent],
