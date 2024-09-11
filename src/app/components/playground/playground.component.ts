@@ -80,6 +80,9 @@ export class PlaygroundComponent implements OnDestroy {
           size: 25,
         },
       },
+      tickfont: {
+        size: 25,
+      },
     },
     yaxis: {
       autorange: true,
@@ -88,6 +91,9 @@ export class PlaygroundComponent implements OnDestroy {
         font: {
           size: 25,
         },
+      },
+      tickfont: {
+        size: 25,
       },
     },
   });
