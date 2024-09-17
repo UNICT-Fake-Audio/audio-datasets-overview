@@ -74,6 +74,7 @@ export class PlaygroundComponent implements OnDestroy {
     },
     xaxis: {
       autorange: true,
+      automargin: true,
       title: {
         text: `${feature} value`,
         font: {
@@ -86,6 +87,7 @@ export class PlaygroundComponent implements OnDestroy {
     },
     yaxis: {
       autorange: true,
+      automargin: true,
       title: {
         text: `number of utterances per value`,
         font: {
