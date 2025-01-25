@@ -1,18 +1,20 @@
 <div class="container">
   <div class="row row-center text-center mt-5 mb-5">
     <ng-container *ngIf="!isLoading; else loading">
-      <div class="col-12">
-        <div class="div-plot-container mx-auto text-center">
-          <plotly-plot #chart [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+      <ng-container *ngIf="!isError; else error">
+        <div class="col-12">
+          <div class="div-plot-container mx-auto text-center">
+            <plotly-plot #chart [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+          </div>
         </div>
-      </div>
-      <div class="col-12">
-        <!-- <p class="text-center">
+        <div class="col-12">
+          <!-- <p class="text-center">
           The y-axis represents the number of utterances that have the specific x-axis value, the x-axis value is the feature value ({{
             feature
           }}).
         </p> -->
-      </div>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </div>
@@ -21,4 +23,8 @@
   <div class="col-12">
     <img src="assets/loading.gif" height="150" />
   </div>
+</ng-template>
+
+<ng-template #error>
+  <div class="col-12">⚠️ Unfortunately, we are not able to load this graph ⚠️</div>
 </ng-template>

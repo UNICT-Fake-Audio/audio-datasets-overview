@@ -42,6 +42,7 @@ export class PlaygroundComponent implements OnDestroy {
   @ViewChild('chart') plotlyGraph: any;
 
   isLoading = true;
+  isError = false;
 
   private readonly titleFont: Partial<Font> = { size: 25 };
 
@@ -129,6 +130,7 @@ export class PlaygroundComponent implements OnDestroy {
       .pipe(
         tap(() => {
           this.isLoading = true;
+          this.isError = false;
         }),
         filter(([ready, _]) => !!ready),
         switchMap((_) => from(this.playgroundService.getDataFromCsvZip(this._dataset, this._feature))),
@@ -156,19 +158,26 @@ export class PlaygroundComponent implements OnDestroy {
           graphData[mapLabelIdx[this.labels[i]]].push(Number(feature[i]));
         }
 
-        for (let i = 0; i < graphData.length; i++) {
-          const { x, y } = getData.bind(this.playgroundService)(graphData[i]);
+        try {
+          for (let i = 0; i < graphData.length; i++) {
+            const { x, y } = getData.bind(this.playgroundService)(graphData[i]);
 
-          const { setX, setY } = this.getSet(x, y); // remove duplicates
+            const { setX, setY } = this.getSet(x, y); // remove duplicates
 
-          (this.graph.data[i] as Partial<PlotData>).x = setX;
-          (this.graph.data[i] as Partial<PlotData>).y = setY;
-          this.graph.data[i].name = `${this.graph.data[i].name} (${graphData[i].length})`;
+            (this.graph.data[i] as Partial<PlotData>).x = setX;
+            (this.graph.data[i] as Partial<PlotData>).y = setY;
+            this.graph.data[i].name = `${this.graph.data[i].name} (${graphData[i].length})`;
+          }
+        } catch (e) {
+          this.isError = true;
+          console.log('error:', e);
         }
 
         this.cdRef.detectChanges();
 
-        this.autoscale();
+        if (!this.isError) {
+          this.autoscale();
+        }
       });
   }
 
