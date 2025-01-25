@@ -25,6 +25,7 @@ export const DATASETS = [
   // 'ASVSPOOF_2019_LA_MP3_HIGH',
   // 'ASVSPOOF_2021',
   // 'ASVSPOOF_2021_SILENCE',
+  'BARKHAUSEN',
   'DEEP_VOICE',
   'FAKE_OR_REAL',
   'FAD',
@@ -39,7 +40,7 @@ export const DatasetAlgorithmLabel: any = {
   /* Record<Dataset, string> */ ASVSPOOF_2019_LA_MP3_LOW: 'SYSTEM_ID',
   ASVSPOOF_2019_LA_V2: 'SYSTEM_ID',
   TIMIT_TTS_CLEAN: 'generator_tool',
-  IEEE_SPCUP_2022: 'SYSTEM_ID',
+  BARKHAUSEN: 'param',
 };
 
 export const SYNTHETIC_LABELS = ['spoof', 'fake'];
