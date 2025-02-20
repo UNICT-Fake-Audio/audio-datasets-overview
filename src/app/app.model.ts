@@ -21,9 +21,9 @@ export const SYSTEM_IDS: systemIDs[] = ['A01_A06', 'A07_A19'];
 
 export const COLORS = [
   'blue',
-  'yellow',
   'green',
   'orange',
+  'slategray',
   'brown',
   'purple',
   'cyan',
@@ -33,13 +33,12 @@ export const COLORS = [
   'salmon',
   'teal',
   'tan',
-  'silver',
+  'navy',
   'aqua',
-  'beige',
   'blueviolet',
   'chartreuse',
   'chocolate',
   'darkgrey',
   'goldenrod',
-  'khaki',
+  'darkgreen',
 ];
