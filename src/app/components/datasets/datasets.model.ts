@@ -40,6 +40,7 @@ export const DatasetAlgorithmLabel: any = {
   /* Record<Dataset, string> */ ASVSPOOF_2019_LA_MP3_LOW: 'SYSTEM_ID',
   ASVSPOOF_2019_LA_V2: 'SYSTEM_ID',
   TIMIT_TTS_CLEAN: 'generator_tool',
+  IEEE_SPCUP_2022: 'SYSTEM_ID',
   BARKHAUSEN: 'param',
 };
 
