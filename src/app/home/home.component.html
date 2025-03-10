@@ -110,7 +110,7 @@
     <div class="offset-2 col-10">
       <div class="d-flex">
         <div class="col-3 text-center align-self-center mr-3">
-          <img src="assets/images/uncovering-synthetic.png" alt="Uncovering the Secrets of Synthetic Audio Detection" height="350" />
+          <img src="assets/images/uncovering-synthetic.png" alt="A Machine Learning approach to Barkhausen Noise Analysis" height="350" />
         </div>
         <div class="media-body">
           <h5 class="mt-0 text-center">Uncovering the Secrets of Synthetic Audio Detection</h5>
@@ -213,6 +213,40 @@
 
     <hr class="mt-5 mb-5" />
 
+    <div class="col-11">
+      <div class="d-flex">
+        <div class="col-5 text-center align-self-center mr-3">
+          <img src="assets/images/barkhausen-pipeline.png" alt="A Machine Learning approach to Barkhausen Noise Analysis" height="100" />
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0 text-center">A Machine Learning approach to Barkhausen Noise Analysis</h5>
+          <p class="text-center"><small>Stefano Borzi, Andrea Maiani, Dario Allegra</small></p>
+          <p>
+            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
+            -
+            <a href="#">coming soon</a>
+          </p>
+          <p>
+            <i-bs name="github" width="30" height="30" style="color: black"> </i-bs>
+            -
+            <a href="https://github.com/UNICT-Fake-Audio/Barkhausen-noise-simulator/" target="_blank">GitHub</a>
+          </p>
+          <span><strong>Abstract:</strong></span>
+          <p>
+            In this work, we introduce a new synthetic dataset of Barkhausen noise signals generated using the
+            Alessandro-Bertotti-Barkhausen-Magni (ABBM) model, a well-established approach for simulating crackling noise dynamics in
+            magnetic materials. By varying key model parameters such as damping coefficient, spring constant, and noise amplitude, we
+            generated 20000 audio samples. To facilitate parameter identification, we extracted handcrafted audio features and applied
+            various machine learning classifiers. Our experiments demonstrated high classification performance, achieving per-class an
+            accuracy of 99.816\% using the HistGradientBoostingClassifier (HGBC). This result highlight the potential of leveraging
+            synthetic datasets and audio features for reverse-engineering Barkhausen noise generation parameters.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mt-5 mb-5" />
+
     <div class="col-6 offset-3 mb-4">
       <h2 class="text-center">People</h2>
     </div>
@@ -266,6 +300,13 @@
         pictureUrl="assets/images/authors/LorenzoMongelli.png"
         class="col-4 text-center mt-5"
         linkedin="https://www.linkedin.com/in/lorenzo-mongelli-862783287/"
+      ></app-author>
+      <app-author
+        fullName="Andrea Maiani"
+        profile="Collaborator"
+        pictureUrl="assets/images/authors/AndreaMaiani.jpeg"
+        class="col-4 text-center mt-5"
+        scholar="https://scholar.google.it/citations?user=DcMhFnYAAAAJ&hl=it&oi=ao"
       ></app-author>
     </div>
     <hr class="mt-5 mb-5" />
