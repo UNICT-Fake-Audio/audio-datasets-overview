@@ -18,33 +18,14 @@
         <div class="media-body">
           <h5 class="mt-0 text-center">Is synthetic voice detection research going into the right direction?</h5>
           <p class="mt-0 text-center"><small>Stefano Borzì, Oliver Giudice, Filippo Stanco, Dario Allegra</small></p>
-          <p>
-            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
-            -
-            <a
-              href="https://openaccess.thecvf.com/content/CVPR2022W/WMF/papers/Borzi_Is_Synthetic_Voice_Detection_Research_Going_Into_the_Right_Direction_CVPRW_2022_paper.pdf"
-              target="_blank"
-              >paper</a
-            >
-          </p>
-          <p>
-            <i-bs name="calendar4-event" width="30" height="30"> </i-bs>
-            - <a href="https://sites.google.com/view/mediaforensics2022" target="_blank">CVPR Workshop on media Forensics 2022</a>
-          </p>
-          <p>
-            <i-bs name="braces-asterisk" width="30" height="30" style="color: brown"> </i-bs>
-            -
-            <a href="https://github.com/UNICT-Fake-Audio/fake-audio-detector/tree/main?tab=readme-ov-file#reference" target="_blank"
-              >Cite (BibTex)</a
-            >
-          </p>
-          <p>
-            <i-bs name="github" width="30" height="30" style="color: black"> </i-bs>
-            -
-            <a href="https://github.com/UNICT-Fake-Audio/fake-audio-detector/blob/main/shared/feature_extraction.py" target="_blank"
-              >GitHub</a
-            >
-          </p>
+          <app-paper-links
+            [article]="
+              'https://openaccess.thecvf.com/content/CVPR2022W/WMF/papers/Borzi_Is_Synthetic_Voice_Detection_Research_Going_Into_the_Right_Direction_CVPRW_2022_paper.pdf'
+            "
+            [github]="'https://github.com/UNICT-Fake-Audio/fake-audio-detector/blob/main/shared/feature_extraction.py'"
+            [cite]="'https://github.com/UNICT-Fake-Audio/fake-audio-detector/tree/main?tab=readme-ov-file#reference'"
+            [event]="'https://sites.google.com/view/mediaforensics2022'"
+          ></app-paper-links>
           <span><strong>Abstract:</strong></span>
           <p>
             Machine Learning, and in general Artificial Intelligence approaches, brought a great advance in each and every field of Computer
@@ -77,29 +58,54 @@
               Kevin Mattheus Moerman
             </small>
           </p>
-          <p>
-            <i-bs name="github" width="30" height="30" style="color: black"> </i-bs>
-            -
-            <a href="https://github.com/SuperKogito/spafe" target="_blank">GitHub</a>
-          </p>
-          <p>
-            <i-bs name="braces-asterisk" width="30" height="30" style="color: brown"> </i-bs>
-            -
-            <a href="https://github.com/SuperKogito/spafe#citing" target="_blank">Cite</a>
-          </p>
-          <p>
-            <i-bs name="link-45deg" width="30" height="30"> </i-bs>
-            -
-            <a href="https://superkogito.github.io/spafe/" target="_blank">Website</a>
-          </p>
-          <p>
-            <i-bs name="card-text" width="30" height="30"> </i-bs>
-            -
-            <a href="https://superkogito.github.io/spafe/api_documentation.html" target="_blank">Documentation</a>
-          </p>
+          <app-paper-links
+            [article]="'https://joss.theoj.org/papers/10.21105/joss.04739'"
+            [github]="'https://github.com/SuperKogito/spafe'"
+            [cite]="'https://github.com/SuperKogito/spafe#citing'"
+            [website]="'https://superkogito.github.io/spafe/'"
+            [documentation]="'https://superkogito.github.io/spafe/api_documentation.html'"
+          ></app-paper-links>
           <p>
             Spafe (Simplified Python Audio Features Extraction) is a light weight library that aims to unite audio feature extraction
             algorithms in one simple code.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mt-5 mb-5" />
+
+    <div class="col-11">
+      <div class="d-flex">
+        <div class="col-5 text-center align-self-center mr-3">
+          <img
+            src="assets/images/silence-pipeline.svg"
+            alt="Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments"
+            height="90"
+          />
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0 text-center">Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments</h5>
+          <p class="mt-0 text-center"><small>Stefano Borzì, Lorenzo Mongelli, Filippo Stanco, Sebastiano Battiato, Dario Allegra</small></p>
+          <app-paper-links
+            [article]="'https://link.springer.com/chapter/10.1007/978-3-031-88223-4_14'"
+            [cite]="'https://link.springer.com/chapter/10.1007/978-3-031-88223-4_14#chapter-info'"
+            [event]="'https://iplab.dmi.unict.it/mmforwild24/programme'"
+          ></app-paper-links>
+          <span><strong>Abstract:</strong></span>
+          <p>
+            Recent advances in artificial intelligence have facilitated the creation of audio deepfakes, synthetic voice recordings that
+            closely mimic human speech. While this tech- nology offers potential benefits in various fields, it also raises significant
+            ethical and legal concerns, particularly regarding its potential misuse in fraud, misinformation, and identity theft. This paper
+            addresses the critical need for reliable and explainable deepfake audio de- tection methods by developing and evaluating an
+            approach that prioritizes handcrafted audio features over complex neural networks. Our method leverages the Random Forest
+            Classifier model to analyze these handcrafted features, with a particular focus on the silent segments of audio samples.
+            Utilizing the DEEP-VOICE dataset, which includes audio samples obtained through voice conversion techniques, our research aims
+            to demonstrate that analyzing silent parts of the audio alone can achieve high-performance deepfake detection. Experiments were
+            conducted on both entire audio samples and their silent segments. The results indicate no sig- nificant difference in accuracy
+            between the two approaches, highlighting that discriminative features of audio deepfakes are present even in the quietest
+            moments. This finding underscores the efficacy of our method and suggests potential advantages in computational efficiency and
+            robustness, as well as enhanced explainability due to the use of interpretable, handcrafted features.
           </p>
         </div>
       </div>
@@ -115,11 +121,7 @@
         <div class="media-body">
           <h5 class="mt-0 text-center">Uncovering the Secrets of Synthetic Audio Detection</h5>
           <p class="text-center"><small>Stefano Borzì, Oliver Giudice, Filippo Stanco, Sebastiano Battiato, Dario Allegra</small></p>
-          <p>
-            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
-            -
-            <a href="#">coming soon</a>
-          </p>
+          <app-paper-links></app-paper-links>
           <span><strong>Abstract:</strong></span>
           <p>
             The detection of synthetic audio has recently gained great attention, as it is a crucial problem in modern technological
@@ -143,44 +145,6 @@
       <div class="d-flex">
         <div class="col-5 text-center align-self-center mr-3">
           <img
-            src="assets/images/silence-pipeline.svg"
-            alt="Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments"
-            height="90"
-          />
-        </div>
-        <div class="media-body">
-          <h5 class="mt-0 text-center">Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments</h5>
-          <p class="mt-0 text-center"><small>Stefano Borzì, Lorenzo Mongelli, Filippo Stanco, Sebastiano Battiato, Dario Allegra</small></p>
-          <p>
-            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
-            -
-            <a href="#">coming soon</a>
-          </p>
-          <span><strong>Abstract:</strong></span>
-          <p>
-            Recent advances in artificial intelligence have facilitated the creation of audio deepfakes, synthetic voice recordings that
-            closely mimic human speech. While this tech- nology offers potential benefits in various fields, it also raises significant
-            ethical and legal concerns, particularly regarding its potential misuse in fraud, misinformation, and identity theft. This paper
-            addresses the critical need for reliable and explainable deepfake audio de- tection methods by developing and evaluating an
-            approach that prioritizes handcrafted audio features over complex neural networks. Our method leverages the Random Forest
-            Classifier model to analyze these handcrafted features, with a particular focus on the silent segments of audio samples.
-            Utilizing the DEEP-VOICE dataset, which includes audio samples obtained through voice conversion techniques, our research aims
-            to demonstrate that analyzing silent parts of the audio alone can achieve high-performance deepfake detection. Experiments were
-            conducted on both entire audio samples and their silent segments. The results indicate no sig- nificant difference in accuracy
-            between the two approaches, highlighting that discriminative features of audio deepfakes are present even in the quietest
-            moments. This finding underscores the efficacy of our method and suggests potential advantages in computational efficiency and
-            robustness, as well as enhanced explainability due to the use of interpretable, handcrafted features.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="mt-5 mb-5" />
-
-    <div class="col-11">
-      <div class="d-flex">
-        <div class="col-5 text-center align-self-center mr-3">
-          <img
             src="assets/images/ssa-closed-vs-open-set.svg"
             alt="Breaking the Silence: Detecting AI-Converted Voices in the Quietest Moments"
             height="255"
@@ -191,11 +155,7 @@
             Synthetic Speech Attribution: versatility comparison between handcrafted features and neural networks
           </h5>
           <p class="mt-0 text-center"><small>Stefano Borzì, Ignazio Gulino, Filippo Stanco, Sebastiano Battiato, Dario Allegra</small></p>
-          <p>
-            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
-            -
-            <a href="#">coming soon</a>
-          </p>
+          <app-paper-links></app-paper-links>
           <span><strong>Abstract:</strong></span>
           <p>
             This paper summarizes the state-of-the-art of synthetic speech attribution (SSA) task and investigates the performance of
@@ -221,16 +181,7 @@
         <div class="media-body">
           <h5 class="mt-0 text-center">A Machine Learning approach to Barkhausen Noise Analysis</h5>
           <p class="text-center"><small>Stefano Borzi, Andrea Maiani, Dario Allegra</small></p>
-          <p>
-            <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
-            -
-            <a href="#">coming soon</a>
-          </p>
-          <p>
-            <i-bs name="github" width="30" height="30" style="color: black"> </i-bs>
-            -
-            <a href="https://github.com/UNICT-Fake-Audio/Barkhausen-noise-simulator/" target="_blank">GitHub</a>
-          </p>
+          <app-paper-links [github]="'https://github.com/UNICT-Fake-Audio/Barkhausen-noise-simulator/'"></app-paper-links>
           <span><strong>Abstract:</strong></span>
           <p>
             In this work, we introduce a new synthetic dataset of Barkhausen noise signals generated using the

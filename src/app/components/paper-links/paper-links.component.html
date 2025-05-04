@@ -1,0 +1,36 @@
+<p>
+  <i-bs name="file-earmark-pdf-fill" width="30" height="30" style="color: red"> </i-bs>
+  &nbsp; -&nbsp;
+  <a *ngIf="!!article" [href]="article" target="_blank">Paper</a>
+  <a *ngIf="!article" disabled style="text-decoration: underline; cursor: pointer">coming soon</a>
+</p>
+
+<p *ngIf="!!event">
+  <i-bs name="calendar4-event" width="30" height="30"> </i-bs>
+  &nbsp; -&nbsp;
+  <a [href]="event" target="_blank">Event</a>
+</p>
+
+<p *ngIf="!!github">
+  <i-bs name="github" width="30" height="30" style="color: black"> </i-bs>
+  &nbsp; -&nbsp;
+  <a [href]="github" target="_blank">GitHub</a>
+</p>
+
+<p *ngIf="!!cite">
+  <i-bs name="braces-asterisk" width="30" height="30" style="color: brown"> </i-bs>
+  &nbsp; -&nbsp;
+  <a [href]="cite" target="_blank">Cite</a>
+</p>
+
+<p *ngIf="!!website">
+  <i-bs name="link-45deg" width="30" height="30"> </i-bs>
+  &nbsp; -&nbsp;
+  <a [href]="website" target="_blank">Website</a>
+</p>
+
+<p *ngIf="!!documentation">
+  <i-bs name="card-text" width="30" height="30"> </i-bs>
+  &nbsp; -&nbsp;
+  <a [href]="documentation" target="_blank">Documentation</a>
+</p>

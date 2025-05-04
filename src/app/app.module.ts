@@ -11,14 +11,15 @@ import {
   cardText,
   fileEarmarkPdfFill,
   github,
-  link45Deg,
   globe,
+  link45Deg,
   linkedin,
 } from 'ngx-bootstrap-icons';
 import { MarkdownModule } from 'ngx-markdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthorComponent } from './author/author.component';
 import { DatasetVariationsComponent } from './components/dataset-variations/dataset-variations.component';
 import { DatasetsComponent } from './components/datasets/datasets.component';
 import { ExperimentsComponent } from './components/experiments/experiments.component';
@@ -29,7 +30,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { VariationComponent } from './components/variation/variation.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
-import { AuthorComponent } from './author/author.component';
+import { PaperLinksComponent } from './components/paper-links/paper-links.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -47,6 +48,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DatasetVariationsComponent,
     VariationComponent,
     AuthorComponent,
+    PaperLinksComponent,
   ],
   imports: [
     BrowserModule,
