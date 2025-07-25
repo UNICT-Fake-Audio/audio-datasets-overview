@@ -28,7 +28,7 @@ export const DATASETS = [
   'BARKHAUSEN',
   'DEEP_VOICE',
   'FAKE_OR_REAL',
-  'FAD',
+  'CFAD',
   'IEEE_SPCUP_2022',
   'IN_THE_WILD',
   'SOS',
